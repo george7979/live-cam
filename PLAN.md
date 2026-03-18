@@ -2,10 +2,11 @@
 
 <!-- ⚠️ CKM SEPARATION WARNING ⚠️ -->
 <!-- PLAN.md is for TIMELINE FOCUS (WHEN) -->
+<!-- DON'T include: Architecture details, code examples, business justifications -->
 <!-- For business requirements → see PRD.md -->
 <!-- For technical implementation → see TECH.md -->
 
-**Version:** 2.1
+**Version:** 3.0
 **Date:** 2026-03-18
 **Project Manager:** Jerzy Maczewski
 **Methodology:** Iterative, CI/CD-driven
@@ -16,66 +17,70 @@
 
 - **Start Date:** 2026-03-18
 - **MVP Completion:** 2026-03-18
-- **Team Size:** 1 osoba + Claude Code
+- **Team Size:** 1 person + Claude Code
 
 ---
 
 ## Phase Overview
 
-### Phase 1: Scaffold + kamera ✅
-**Goal:** Działająca aplikacja Tauri na WSL2
-**Status:** Gotowe
+### Phase 1: Scaffold + Camera ✅
+**Goal:** Working Tauri app on WSL2
 
-### Phase 2: GitHub repo + CI/CD ✅
-**Goal:** Automatyczny build Windows .exe przez GitHub Actions
-**Status:** Gotowe — repo publiczne, workflow działa, .exe buduje się poprawnie
+### Phase 2: GitHub Repo + CI/CD ✅
+**Goal:** Automated Windows .exe build via GitHub Actions
 
-### Phase 3: Test na Windows ✅
-**Goal:** Test .exe z prawdziwą kamerą na Windows
-**Status:** Gotowe — aplikacja działa
+### Phase 3: Windows Testing ✅
+**Goal:** Test .exe with real camera on Windows
 
-### Phase 4: Dokumentacja + merge do main
-**Goal:** Aktualizacja CKM, CLAUDE.md, README.md, merge dev → main, pierwszy release
-**Status:** W toku
+### Phase 4: Documentation + Polish ✅
+**Goal:** CKM docs, CLAUDE.md, README.md, bug fixes
+
+### Phase 5: Release
+**Goal:** Merge dev → main, first stable release v1.0.0
 
 ---
 
 ## Task Breakdown
 
-### Phase 1 — Scaffold + kamera ✅
-- [x] Inicjalizacja projektu Tauri v2
-- [x] Konfiguracja okna (rozmiar, resizable, tytuł)
-- [x] Frontend: enumeracja kamer, dropdown, video stream
-- [x] Frontend: menu kontekstowe (prawy klik)
+### Phase 1 — Scaffold + Camera ✅
+- [x] Initialize Tauri v2 project
+- [x] Configure window (size, resizable, title)
+- [x] Frontend: camera enumeration, dropdown, video stream
+- [x] Frontend: context menu (right-click)
 - [x] Frontend: fullscreen (F11 + Esc)
-- [x] Kompilacja i uruchomienie na WSL2
+- [x] Compile and run on WSL2
 
-### Phase 2 — GitHub repo + CI/CD ✅
-- [x] Utworzenie repo na GitHub (`george7979/live-cam`, publiczne)
-- [x] `.github/workflows/build.yml` — workflow budujący Windows .exe (NSIS)
-- [x] `.gitignore` dla Tauri/Rust/Node
+### Phase 2 — GitHub Repo + CI/CD ✅
+- [x] Create GitHub repo (`george7979/live-cam`, public)
+- [x] `.github/workflows/build.yml` — Windows .exe build workflow
 - [x] Branching: `dev` (default, CI trigger) + `main` (stable)
-- [x] Pierwszy push + weryfikacja workflow — build PASSED
-- [x] Pobranie .exe z artifacts (8 MB)
+- [x] First push + workflow verification — build PASSED
+- [x] Download .exe from artifacts (8 MB)
 
-### Phase 3 — Test na Windows ✅
-- [x] Test .exe na Windows z prawdziwą kamerą — działa
+### Phase 3 — Windows Testing ✅
+- [x] Test .exe on Windows with real camera — works
 
-### Phase 4 — Dokumentacja + release
-- [ ] Aktualizacja PRD.md (statusy, metryki)
-- [ ] Aktualizacja PLAN.md (statusy faz)
-- [ ] Aktualizacja TECH.md (aktualne informacje)
-- [ ] Utworzenie CLAUDE.md (instrukcje dla AI)
-- [ ] Utworzenie README.md (dokumentacja użytkownika)
+### Phase 4 — Documentation + Polish ✅
+- [x] Create CLAUDE.md (AI assistant instructions)
+- [x] Create README.md (end-user documentation)
+- [x] Fix fullscreen (add Tauri capabilities, dblclick, F key)
+- [x] Fix video resolution (no constraint override)
+- [x] CI: path filter (docs don't trigger builds)
+- [x] CI: cache ~/.cargo/bin (faster builds)
+- [x] CI: dev pre-release on every push to dev
+- [x] Update all CKM docs to English, verify SSOT
+
+### Phase 5 — Release
+- [ ] Final testing of fullscreen fix
 - [ ] Merge dev → main
-- [ ] Tag v1.0.0 → GitHub Release z .exe
+- [ ] Tag v1.0.0 → GitHub Release with .exe
 
 ---
 
 ## Progress Tracking
 
-### Current Status: Phase 4 — Dokumentacja + release
-**Progress:** MVP działa, dokumentacja w aktualizacji
+### Current Status: Phase 4 complete, awaiting Phase 5
+**Progress:** MVP works, fullscreen fix in latest build, docs updated
 
 ---
 

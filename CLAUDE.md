@@ -1,13 +1,13 @@
 # Claude Code Instructions - Live Cam
 
 ## Project Overview
-Minimalistyczna aplikacja desktopowa Tauri v2 do podglądu kamer systemowych na Windows.
-Portable .exe (~8 MB), zero footprint, budowana przez GitHub Actions CI/CD.
+Minimalist Tauri v2 desktop app for viewing system cameras on Windows.
+Portable .exe (~8 MB), zero footprint, built via GitHub Actions CI/CD.
 
 ## Documentation
-- **PRD.md** — wymagania biznesowe (WHAT & WHY)
-- **PLAN.md** — plan realizacji (WHEN)
-- **TECH.md** — architektura techniczna (HOW)
+- **PRD.md** — business requirements (WHAT & WHY)
+- **PLAN.md** — implementation plan (WHEN)
+- **TECH.md** — technical architecture (HOW)
 
 ## Tech Stack
 - **Frontend:** Vanilla HTML/CSS/JS (no framework) — `src/`
@@ -16,22 +16,24 @@ Portable .exe (~8 MB), zero footprint, budowana przez GitHub Actions CI/CD.
 - **Repo:** `george7979/live-cam` (public)
 
 ## Git Workflow
-- **`dev`** — default branch, CI/CD trigger, tu pracujemy
-- **`main`** — stable, merge z dev na życzenie
-- Push do `dev` → automatyczny build Windows .exe
-- Tag `v*` → GitHub Release z .exe
+- **`dev`** — default branch, CI/CD trigger, active development
+- **`main`** — stable, merge from dev on demand
+- Push to `dev` → automatic Windows .exe build + dev pre-release update
+- Tag `v*` → stable GitHub Release with .exe
+- CI only triggers on code changes (path filter: `src/`, `src-tauri/`, `package.json`, `.github/workflows/`)
 
 ## Coding Standards
 - JavaScript: ES6+, vanilla (no npm dependencies in frontend)
-- CSS: osobny plik `style.css`, dark theme
-- Rust: minimal `main.rs`, tylko Tauri setup
-- Bez komentarzy oczywistych, bez zbędnych abstrakcji
+- CSS: separate `style.css`, dark theme
+- Rust: minimal `main.rs`, Tauri setup only
+- No obvious comments, no unnecessary abstractions
 
 ## Key Constraints
-- **Zero footprint:** Aplikacja nie zapisuje niczego na dysku — brak config, cache, localStorage
-- **Single purpose:** Tylko podgląd kamery — nie dodawać zbędnych funkcji
-- **Portable:** Sam .exe, brak instalatora jako primary deliverable
-- **No frameworks:** Frontend to vanilla JS, nie dodawać React/Vue/etc.
+- **Zero footprint:** App writes nothing to disk — no config, cache, localStorage
+- **Single purpose:** Camera preview only — don't add unnecessary features
+- **Portable:** Standalone .exe is the primary deliverable
+- **No frameworks:** Frontend is vanilla JS, don't add React/Vue/etc.
+- **No resolution override:** Camera provides its native resolution
 
 ## Commands
 ```bash
@@ -39,7 +41,7 @@ Portable .exe (~8 MB), zero footprint, budowana przez GitHub Actions CI/CD.
 source ~/.cargo/env
 cargo tauri dev
 
-# Build (via GitHub Actions — nie lokalnie)
+# Build (via GitHub Actions — not locally)
 git push origin dev
 
 # Download .exe
@@ -47,6 +49,7 @@ gh run download --repo george7979/live-cam --name live-cam-windows
 ```
 
 ## Security
-- Brak API keys, tokenów ani sekretów w repo
-- CSP w `tauri.conf.json` — ograniczony do `self` + `mediastream:`
-- `getUserMedia` jako jedyne uprawnienie systemowe
+- No API keys, tokens, or secrets in repo
+- CSP in `tauri.conf.json` — restricted to `self` + `mediastream:`
+- `getUserMedia` as the only system permission
+- Tauri capabilities in `src-tauri/capabilities/default.json` — only window fullscreen permissions
