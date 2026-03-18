@@ -4,9 +4,10 @@ Minimalist camera viewer for Windows. One job: display your system camera feed.
 
 ## Download
 
-Download `live-cam.exe` from [Releases](https://github.com/george7979/live-cam/releases).
+Go to [Releases](https://github.com/george7979/live-cam/releases) and pick:
 
-No installation needed — just run the .exe.
+- **`live-cam.exe`** — portable, no installation, just run it
+- **`Live Cam ... x64-setup.exe`** — installer (adds Start Menu shortcut, Add/Remove Programs entry)
 
 ## Features
 
@@ -24,6 +25,7 @@ No installation needed — just run the .exe.
 | Key | Action |
 |-----|--------|
 | F11 | Toggle fullscreen |
+| F   | Toggle fullscreen (alternative) |
 | Esc | Exit fullscreen / close context menu |
 
 ## Requirements
