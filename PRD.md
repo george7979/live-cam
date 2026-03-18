@@ -5,7 +5,7 @@
 <!-- For implementation details → see TECH.md -->
 <!-- For timeline planning → see PLAN.md -->
 
-**Version:** 2.0
+**Version:** 2.1
 **Date:** 2026-03-18
 **Author:** Jerzy Maczewski
 **Purpose:** Lekka natywna aplikacja desktopowa na Windows do podglądu obrazu z kamer systemowych (Tauri + GitHub Actions CI/CD)
@@ -79,7 +79,7 @@ Minimalistyczna aplikacja desktopowa na Windows, której jedynym celem jest wyś
 ## Non-functional Requirements
 
 ### Usability:
-- **NFR1** Przenośny plik .exe — budowany automatycznie przez GitHub Actions CI/CD, portable
+- **NFR1** Przenośny plik .exe (~8 MB) — budowany automatycznie przez GitHub Actions CI/CD
 - **NFR2** Intuicyjny interfejs — max 2 kliknięcia do podglądu
 - **NFR3** Minimalistyczny UI — tylko to co potrzebne (dropdown kamery + obraz + fullscreen)
 
@@ -102,8 +102,8 @@ Minimalistyczna aplikacja desktopowa na Windows, której jedynym celem jest wyś
 ## Success Metrics
 
 ### Primary Metrics:
-- **M1** **Czas do podglądu**: Uruchomienie → obraz z kamery < 5 sekund
-- **M2** **Rozmiar aplikacji**: < 50 MB (z runtime jeśli potrzebny)
+- **M1** ~~Czas do podglądu: < 5 sekund~~ ✅ Zweryfikowane
+- **M2** ~~Rozmiar aplikacji: < 50 MB~~ ✅ 8 MB
 - **M3** **CPU usage**: < 5% przy wyświetlaniu strumienia 1080p
 
 ---
@@ -125,11 +125,11 @@ Minimalistyczna aplikacja desktopowa na Windows, której jedynym celem jest wyś
 ## Acceptance Criteria
 
 ### Must Have:
-- [ ] Lista kamer systemowych w dropdown
-- [ ] Podgląd strumienia wideo na żywo z wybranej kamery
-- [ ] Zmiana rozmiaru okna z proporcjonalnym skalowaniem obrazu
-- [ ] Tryb pełnoekranowy (fullscreen)
-- [ ] Zero footprint — usunięcie .exe = pełna deinstalacja, zero pozostałości
+- [x] Lista kamer systemowych w dropdown
+- [x] Podgląd strumienia wideo na żywo z wybranej kamery
+- [x] Zmiana rozmiaru okna z proporcjonalnym skalowaniem obrazu
+- [x] Tryb pełnoekranowy (fullscreen)
+- [ ] Zero footprint — weryfikacja braku plików po zamknięciu (do przetestowania)
 
 ### Could Have (przyszłość):
 - [ ] Zapis zrzutu ekranu (screenshot z kamery)
