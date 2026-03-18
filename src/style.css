@@ -1,0 +1,142 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #1a1a1a;
+  color: #e0e0e0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: #2a2a2a;
+  border-bottom: 1px solid #3a3a3a;
+  flex-shrink: 0;
+}
+
+.toolbar label {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.toolbar select {
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #555;
+  background: #333;
+  color: #e0e0e0;
+  font-size: 13px;
+  cursor: pointer;
+  max-width: 400px;
+}
+
+.toolbar select:focus {
+  outline: none;
+  border-color: #6a9fd8;
+}
+
+.resolution {
+  margin-left: auto;
+  font-size: 12px;
+  color: #777;
+}
+
+/* Video */
+.video-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  position: relative;
+  overflow: hidden;
+}
+
+video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.no-camera {
+  position: absolute;
+  color: #555;
+  font-size: 16px;
+  text-align: center;
+}
+
+.no-camera.hidden {
+  display: none;
+}
+
+/* Context Menu */
+.context-menu {
+  display: none;
+  position: fixed;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 4px 0;
+  min-width: 200px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.context-menu.visible {
+  display: block;
+}
+
+.menu-item {
+  padding: 6px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.menu-item:hover {
+  background: #3a3a3a;
+}
+
+.menu-item.active {
+  color: #6a9fd8;
+}
+
+.menu-item.active::before {
+  content: "● ";
+}
+
+.menu-item.menu-info {
+  color: #666;
+  cursor: default;
+  font-size: 12px;
+}
+
+.menu-item.menu-info:hover {
+  background: transparent;
+}
+
+.menu-divider {
+  height: 1px;
+  background: #3a3a3a;
+  margin: 4px 0;
+}
+
+.menu-section-label {
+  padding: 4px 16px 2px;
+  font-size: 11px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}

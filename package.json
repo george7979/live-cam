@@ -1,0 +1,12 @@
+{
+  "name": "live-cam",
+  "version": "1.0.0",
+  "description": "Minimal camera viewer for Windows",
+  "scripts": {
+    "tauri": "cargo tauri",
+    "dev": "cargo tauri dev",
+    "build": "cargo tauri build"
+  },
+  "author": "Jerzy Maczewski",
+  "license": "MIT"
+}
