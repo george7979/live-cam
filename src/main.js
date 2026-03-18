@@ -80,7 +80,11 @@ async function selectCamera(deviceId) {
 
   try {
     const stream = await navigator.mediaDevices.getUserMedia({
-      video: { deviceId: { exact: deviceId } },
+      video: {
+        deviceId: { exact: deviceId },
+        width: { ideal: 4096 },
+        height: { ideal: 2160 },
+      },
     });
 
     currentStream = stream;

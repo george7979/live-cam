@@ -116,9 +116,9 @@ live-cam/
 A temporary `getUserMedia({video: true})` call is required first so WebView2 returns device labels. Without it, `enumerateDevices()` returns empty `label` fields. The temporary stream is stopped immediately.
 
 ### Video Constraints
-No resolution constraints are applied — the camera provides its native resolution as configured in its driver settings:
+High `ideal` values (4096×2160) request the camera's maximum supported resolution. Without `ideal`, getUserMedia defaults to 640×480. The camera provides the best it can — a 1080p camera gives 1080p, a 720p camera gives 720p:
 ```javascript
-{ video: { deviceId: { exact: selectedDeviceId } } }
+{ video: { deviceId: { exact: deviceId }, width: { ideal: 4096 }, height: { ideal: 2160 } } }
 ```
 
 ### Context Menu (right-click)
