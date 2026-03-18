@@ -28,6 +28,14 @@ Go to [Releases](https://github.com/george7979/live-cam/releases) and pick:
 | F   | Toggle fullscreen (alternative) |
 | Esc | Exit fullscreen / close context menu |
 
+## Windows SmartScreen Warning
+
+On first launch, Windows Defender SmartScreen may show a blue warning: *"Windows protected your PC"*. This happens because the app is not signed with a code signing certificate (which costs $200+/year).
+
+The app is open-source — you can inspect the [full source code](https://github.com/george7979/live-cam) and the [build pipeline](.github/workflows/build.yml) that produces the .exe.
+
+To run it: click **"More info"** → **"Run anyway"**.
+
 ## Requirements
 
 - Windows 10 (21H2+) or Windows 11
