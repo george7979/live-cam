@@ -40,7 +40,7 @@ jobs:
             ${{ runner.os }}-cargo-
 
       - name: Install Tauri CLI
-        run: cargo install tauri-cli --version "^2"
+        run: cargo tauri --version || cargo install tauri-cli --version "^2"
 
       - name: Build Tauri app
         run: cargo tauri build --bundles nsis
