@@ -80,11 +80,7 @@ async function selectCamera(deviceId) {
 
   try {
     const stream = await navigator.mediaDevices.getUserMedia({
-      video: {
-        deviceId: { exact: deviceId },
-        width: { ideal: 1920 },
-        height: { ideal: 1080 },
-      },
+      video: { deviceId: { exact: deviceId } },
     });
 
     currentStream = stream;
@@ -146,24 +142,25 @@ document.addEventListener("click", hideContextMenu);
 
 // --- Fullscreen ---
 
+let isFullscreen = false;
+
 async function toggleFullscreen() {
   try {
     if (window.__TAURI__) {
-      const { getCurrentWindow } = window.__TAURI__.window;
-      const win = getCurrentWindow();
-      const isFullscreen = await win.isFullscreen();
+      const win = window.__TAURI__.window.getCurrentWindow();
+      isFullscreen = await win.isFullscreen();
       await win.setFullscreen(!isFullscreen);
-      menuFullscreen.textContent = isFullscreen ? "Pełny ekran" : "Wyjdź z pełnego ekranu";
+      isFullscreen = !isFullscreen;
     } else {
-      // Fallback for browser testing
       if (!document.fullscreenElement) {
         await document.documentElement.requestFullscreen();
-        menuFullscreen.textContent = "Wyjdź z pełnego ekranu";
+        isFullscreen = true;
       } else {
         await document.exitFullscreen();
-        menuFullscreen.textContent = "Pełny ekran";
+        isFullscreen = false;
       }
     }
+    menuFullscreen.textContent = isFullscreen ? "Wyjdź z pełnego ekranu" : "Pełny ekran";
   } catch (err) {
     console.error("Fullscreen error:", err);
   }
@@ -174,14 +171,22 @@ menuFullscreen.addEventListener("click", () => {
   hideContextMenu();
 });
 
+// Double-click on video to toggle fullscreen
+video.addEventListener("dblclick", () => {
+  toggleFullscreen();
+});
+
 // --- Keyboard Shortcuts ---
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "F11") {
+  if (e.key === "F11" || e.key === "f" || e.key === "F") {
     e.preventDefault();
     toggleFullscreen();
   }
   if (e.key === "Escape") {
+    if (isFullscreen) {
+      toggleFullscreen();
+    }
     hideContextMenu();
   }
 });
