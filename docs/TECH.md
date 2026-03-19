@@ -40,8 +40,9 @@ enumerateDevices() → camera list → dropdown/menu → getUserMedia({deviceId}
 - ✅ Tauri v2 with WebView2
 - ✅ Deferred camera discovery (user-initiated, no auto-detect on startup)
 - ✅ Discover button (↻) with spin animation + dropdown click trigger
-- ✅ Context menu (right-click): camera list, fullscreen, resolution info
+- ✅ Context menu (right-click): camera list, fullscreen, hide toolbar, resolution info
 - ✅ Fullscreen: F11, F key, double-click, Esc to exit, context menu
+- ✅ Hide toolbar mode: removes decorations + toolbar, drag via video (B key or context menu)
 - ✅ Tauri v2 capabilities (window permissions)
 - ✅ GitHub Actions CI/CD with dev pre-release
 - ✅ Path filter (only code changes trigger builds)
@@ -136,6 +137,7 @@ High `ideal` values (4096×2160) request the camera's maximum supported resoluti
 Custom HTML/JS menu via `contextmenu` event with `preventDefault()`:
 - Camera list with active camera marked (● prefix)
 - Fullscreen toggle
+- Hide toolbar toggle
 - Resolution info (read-only)
 - Viewport edge correction for positioning
 
@@ -148,6 +150,15 @@ Multiple entry points, all calling the same `toggleFullscreen()`:
 - **Esc** key — exits fullscreen
 
 Uses Tauri window API (`window.__TAURI__.window.getCurrentWindow().setFullscreen()`) with browser Fullscreen API as fallback. Requires `core:window:allow-set-fullscreen` capability in `capabilities/default.json`.
+
+### Hide Toolbar (Borderless)
+Removes Windows title bar (decorations) and hides the toolbar for a clean video-only view:
+- **B** key — toggle shortcut
+- **Context menu** → "Hide toolbar" / "Show toolbar"
+- **Window dragging** — in borderless mode, left-click on video starts window drag via `startDragging()`
+- Note: double-click fullscreen is unavailable in borderless mode (drag takes priority)
+
+Requires Tauri capabilities: `core:window:allow-set-decorations`, `core:window:allow-is-decorated`, `core:window:allow-start-dragging`.
 
 ### Device Change Listener
 Registered only after first manual discovery (not on startup):

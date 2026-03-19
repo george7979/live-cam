@@ -15,7 +15,8 @@ Go to [Latest Release](https://github.com/george7979/live-cam/releases/latest) a
 - **Live preview** — real-time video stream from selected camera
 - **Resizable window** — proportional scaling, maintains aspect ratio
 - **Fullscreen** — F11 key, right-click menu, or double-click
-- **Right-click menu** — camera switching, fullscreen toggle, resolution info
+- **Hide toolbar** — borderless mode for clean video-only view (right-click or B key)
+- **Right-click menu** — camera switching, fullscreen, hide toolbar, resolution info
 - **Manual select** — choose your camera from the dropdown, no auto-start
 - **Hot-plug** — detects cameras being plugged in or removed
 - **Zero footprint** — no config files, no registry entries, delete .exe = full uninstall
@@ -26,6 +27,7 @@ Go to [Latest Release](https://github.com/george7979/live-cam/releases/latest) a
 |-----|--------|
 | F11 | Toggle fullscreen |
 | F   | Toggle fullscreen (alternative) |
+| B   | Toggle hide toolbar (borderless) |
 | Esc | Exit fullscreen / close context menu |
 
 ## Code Signing

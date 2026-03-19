@@ -71,10 +71,11 @@ Minimalist desktop application for Windows whose sole purpose is displaying a li
 - **FR3.3** Image adapts to window size (maintaining aspect ratio)
 - **FR3.4** Fullscreen via keyboard shortcuts (F11, F), double-click, or context menu; exit with Esc
 - **FR3.5** Fixed default window size (no persistence between sessions)
+- **FR3.6** Hide toolbar mode — removes title bar and toolbar for clean video-only view; window draggable by grabbing video
 
 ### FR4: Context Menu (right-click on camera area)
 - **FR4.1** Right-click on video area opens context menu
-- **FR4.2** Menu options: fullscreen toggle, camera list, resolution info
+- **FR4.2** Menu options: fullscreen toggle, hide toolbar toggle, camera list, resolution info
 - **FR4.3** Menu as alternative access to all functions
 
 ---
