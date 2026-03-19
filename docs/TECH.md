@@ -44,6 +44,7 @@ enumerateDevices() → camera list → dropdown/menu → getUserMedia({deviceId}
 - ✅ Context menu: fullscreen, hide toolbar, resolution info
 - ✅ Fullscreen: F11, F key, double-click, Esc to exit, context menu
 - ✅ Hide toolbar mode: removes decorations + toolbar, drag via video (B key or context menu)
+- ✅ Always on top: pin window above others (T key or context menu)
 - ✅ Tauri v2 capabilities (window permissions)
 - ✅ GitHub Actions CI/CD with dev pre-release
 - ✅ Path filter (only code changes trigger builds)
@@ -164,6 +165,15 @@ Removes Windows title bar (decorations) and hides the toolbar for a clean video-
 - Note: double-click fullscreen is unavailable in borderless mode (drag takes priority)
 
 Requires Tauri capabilities: `core:window:allow-set-decorations`, `core:window:allow-is-decorated`, `core:window:allow-start-dragging`.
+
+### Always on Top
+Pins the window above all other windows via `setAlwaysOnTop()`:
+- **T** key — toggle shortcut
+- **Context menu** → "Always on top" / "Always on top ✓"
+
+Requires Tauri capabilities: `core:window:allow-set-always-on-top`, `core:window:allow-is-always-on-top`.
+
+Note: Does not work in WSL2 (WSLg limitation) — works correctly in native Windows .exe builds.
 
 ### Device Change Listener
 Registered only after first manual discovery (not on startup):

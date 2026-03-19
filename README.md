@@ -21,12 +21,13 @@ Go to [Latest Release](https://github.com/george7979/live-cam/releases/latest) a
 - **Resizable window** — proportional scaling, maintains aspect ratio
 - **Fullscreen** — F11 key, double-click, or settings menu
 - **Hide toolbar** — borderless mode for clean video-only view, drag window by grabbing video
+- **Always on top** — pin window above all others
 - **Resolution info** — current resolution and FPS shown in settings menu
 
 ### Interface
 - **Settings button** (⚙) — quick access to display options from toolbar
 - **Right-click menu** — same settings menu, available anywhere including borderless mode
-- **Keyboard shortcuts** — F11/F (fullscreen), B (borderless), Esc (exit)
+- **Keyboard shortcuts** — F11/F (fullscreen), B (borderless), T (always on top), Esc (exit)
 
 ### Design
 - **Zero footprint** — no config files, no registry entries, delete .exe = full uninstall
@@ -40,6 +41,7 @@ Go to [Latest Release](https://github.com/george7979/live-cam/releases/latest) a
 | F11 | Toggle fullscreen |
 | F   | Toggle fullscreen (alternative) |
 | B   | Toggle hide toolbar (borderless) |
+| T   | Toggle always on top |
 | Esc | Exit fullscreen / close context menu |
 
 ## Code Signing

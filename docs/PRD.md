@@ -72,6 +72,7 @@ Minimalist desktop application for Windows whose sole purpose is displaying a li
 - **FR3.4** Fullscreen via keyboard shortcuts (F11, F), double-click, or context menu; exit with Esc
 - **FR3.5** Fixed default window size (no persistence between sessions)
 - **FR3.6** Hide toolbar mode — removes title bar and toolbar for clean video-only view; window draggable by grabbing video
+- **FR3.7** Always on top — pin window above all other windows
 
 ### FR4: Context Menu (right-click on camera area)
 - **FR4.1** Right-click on video area opens context menu
@@ -142,7 +143,6 @@ Minimalist desktop application for Windows whose sole purpose is displaying a li
 - [ ] Screenshot capture from camera
 - [ ] Resolution selection from supported list
 - [ ] Mirror/flip option
-- [ ] Always-on-top window
 - [ ] Remember selected camera between sessions (would require config file)
 
 ---
