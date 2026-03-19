@@ -1,5 +1,6 @@
 const video = document.getElementById("video");
 const select = document.getElementById("cameraSelect");
+const discoverBtn = document.getElementById("discoverBtn");
 const resolutionEl = document.getElementById("resolution");
 const noCameraMsg = document.getElementById("noCameraMsg");
 const contextMenu = document.getElementById("contextMenu");
@@ -10,10 +11,12 @@ const menuResolution = document.getElementById("menuResolution");
 let currentStream = null;
 let cameras = [];
 let currentDeviceId = null;
+let discovered = false;
 
 // --- Camera Management ---
 
 async function listCameras() {
+  discoverBtn.classList.add("discovering");
   try {
     const tempStream = await navigator.mediaDevices.getUserMedia({ video: true });
     tempStream.getTracks().forEach((t) => t.stop());
@@ -27,8 +30,15 @@ async function listCameras() {
     if (cameras.length === 0) {
       showStatus("No cameras found");
     }
+
+    if (!discovered) {
+      discovered = true;
+      navigator.mediaDevices.addEventListener("devicechange", listCameras);
+    }
   } catch (err) {
     showStatus("Camera access denied: " + err.message);
+  } finally {
+    discoverBtn.classList.remove("discovering");
   }
 }
 
@@ -125,6 +135,10 @@ select.addEventListener("change", () => {
   }
 });
 
+select.addEventListener("mousedown", () => {
+  if (!discovered) listCameras();
+});
+
 // --- Context Menu ---
 
 document.addEventListener("contextmenu", (e) => {
@@ -203,7 +217,4 @@ document.addEventListener("keydown", (e) => {
 
 // --- Init ---
 
-listCameras();
-
-// Listen for device changes (camera plugged/unplugged)
-navigator.mediaDevices.addEventListener("devicechange", listCameras);
+discoverBtn.addEventListener("click", listCameras);
