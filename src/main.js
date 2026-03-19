@@ -6,6 +6,7 @@ const noCameraMsg = document.getElementById("noCameraMsg");
 const contextMenu = document.getElementById("contextMenu");
 const menuCameras = document.getElementById("menuCameras");
 const menuFullscreen = document.getElementById("menuFullscreen");
+const menuBorderless = document.getElementById("menuBorderless");
 const menuResolution = document.getElementById("menuResolution");
 
 let currentStream = null;
@@ -200,12 +201,47 @@ video.addEventListener("dblclick", () => {
   toggleFullscreen();
 });
 
+// --- Borderless ---
+
+let isBorderless = false;
+
+async function toggleBorderless() {
+  try {
+    if (window.__TAURI__) {
+      const win = window.__TAURI__.window.getCurrentWindow();
+      isBorderless = !isBorderless;
+      await win.setDecorations(!isBorderless);
+      document.body.classList.toggle("borderless", isBorderless);
+      menuBorderless.textContent = isBorderless ? "Show toolbar" : "Hide toolbar";
+    }
+  } catch (err) {
+    console.error("Borderless error:", err);
+  }
+}
+
+menuBorderless.addEventListener("click", () => {
+  toggleBorderless();
+  hideContextMenu();
+});
+
+// Drag window in borderless mode
+video.addEventListener("mousedown", (e) => {
+  if (!isBorderless || e.button !== 0) return;
+  if (window.__TAURI__) {
+    window.__TAURI__.window.getCurrentWindow().startDragging();
+  }
+});
+
 // --- Keyboard Shortcuts ---
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "F11" || e.key === "f" || e.key === "F") {
     e.preventDefault();
     toggleFullscreen();
+  }
+  if (e.key === "b" || e.key === "B") {
+    e.preventDefault();
+    toggleBorderless();
   }
   if (e.key === "Escape") {
     if (isFullscreen) {

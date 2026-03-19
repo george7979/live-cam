@@ -82,6 +82,11 @@ body {
   color: #777;
 }
 
+/* Borderless mode */
+body.borderless .toolbar {
+  display: none;
+}
+
 /* Video */
 .video-container {
   flex: 1;
