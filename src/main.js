@@ -7,6 +7,7 @@ const noCameraMsg = document.getElementById("noCameraMsg");
 const contextMenu = document.getElementById("contextMenu");
 const menuFullscreen = document.getElementById("menuFullscreen");
 const menuBorderless = document.getElementById("menuBorderless");
+const menuAlwaysOnTop = document.getElementById("menuAlwaysOnTop");
 const menuResolution = document.getElementById("menuResolution");
 
 let currentStream = null;
@@ -211,6 +212,28 @@ menuBorderless.addEventListener("click", () => {
   hideContextMenu();
 });
 
+// --- Always on Top ---
+
+let isAlwaysOnTop = false;
+
+async function toggleAlwaysOnTop() {
+  try {
+    if (window.__TAURI__) {
+      const win = window.__TAURI__.window.getCurrentWindow();
+      isAlwaysOnTop = !isAlwaysOnTop;
+      await win.setAlwaysOnTop(isAlwaysOnTop);
+      menuAlwaysOnTop.textContent = isAlwaysOnTop ? "Always on top ✓" : "Always on top";
+    }
+  } catch (err) {
+    console.error("Always on top error:", err);
+  }
+}
+
+menuAlwaysOnTop.addEventListener("click", () => {
+  toggleAlwaysOnTop();
+  hideContextMenu();
+});
+
 // Drag window in borderless mode
 video.addEventListener("mousedown", (e) => {
   if (e.button !== 0) return;
@@ -230,6 +253,10 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "F11" || e.key === "f" || e.key === "F") {
     e.preventDefault();
     toggleFullscreen();
+  }
+  if (e.key === "t" || e.key === "T") {
+    e.preventDefault();
+    toggleAlwaysOnTop();
   }
   if (e.key === "b" || e.key === "B") {
     e.preventDefault();

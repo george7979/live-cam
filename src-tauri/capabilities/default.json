@@ -12,6 +12,8 @@
     "core:window:allow-unmaximize",
     "core:window:allow-set-decorations",
     "core:window:allow-is-decorated",
-    "core:window:allow-start-dragging"
+    "core:window:allow-start-dragging",
+    "core:window:allow-set-always-on-top",
+    "core:window:allow-is-always-on-top"
   ]
 }
