@@ -93,7 +93,7 @@ async function selectCamera(deviceId) {
     const settings = track.getSettings();
     const resText = settings.width + "x" + settings.height;
     resolutionEl.textContent = resText;
-    menuResolution.textContent = resText + " @ " + (settings.frameRate || "?") + " fps";
+    menuResolution.textContent = resText + " @ " + Math.round(settings.frameRate || 0) + " fps";
   } catch (err) {
     showStatus("Camera error: " + err.message);
   }
