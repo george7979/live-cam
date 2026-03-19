@@ -6,7 +6,7 @@
 <!-- For business requirements → see PRD.md -->
 <!-- For technical implementation → see TECH.md -->
 
-**Version:** 3.0
+**Version:** 3.1
 **Date:** 2026-03-18
 **Project Manager:** Jerzy Maczewski
 **Methodology:** Iterative, CI/CD-driven
@@ -35,7 +35,7 @@
 ### Phase 4: Documentation + Polish ✅
 **Goal:** CKM docs, CLAUDE.md, README.md, bug fixes
 
-### Phase 5: Release
+### Phase 5: Release ✅
 **Goal:** Merge dev → main, first stable release v1.0.0
 
 ---
@@ -70,17 +70,22 @@
 - [x] CI: dev pre-release on every push to dev
 - [x] Update all CKM docs to English, verify SSOT
 
-### Phase 5 — Release
-- [ ] Final testing of fullscreen fix
-- [ ] Merge dev → main
-- [ ] Tag v1.0.0 → GitHub Release with .exe
+### Phase 5 — Release ✅
+- [x] Final testing of fullscreen fix
+- [x] Fix video resolution (ideal 4096x2160 for max camera res)
+- [x] Fix video filling entire container (CSS width/height 100%)
+- [x] Code cleanup (removed unused serde deps, optimized bundle targets)
+- [x] SmartScreen warning info in README
+- [x] Merge dev → main
+- [x] Tag v1.0.0 → GitHub Release with .exe
+- [x] Set main as default branch
 
 ---
 
 ## Progress Tracking
 
-### Current Status: Phase 4 complete, awaiting Phase 5
-**Progress:** MVP works, fullscreen fix in latest build, docs updated
+### Current Status: v1.0.0 released ✅
+**Progress:** All phases complete. App published at https://github.com/george7979/live-cam/releases
 
 ---
 

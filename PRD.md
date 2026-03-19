@@ -6,7 +6,7 @@
 <!-- For implementation details → see TECH.md -->
 <!-- For timeline planning → see PLAN.md -->
 
-**Version:** 3.0
+**Version:** 3.1
 **Date:** 2026-03-18
 **Author:** Jerzy Maczewski
 **Purpose:** Lightweight native Windows desktop app for viewing system camera feeds
@@ -131,8 +131,9 @@ Minimalist desktop application for Windows whose sole purpose is displaying a li
 - [x] System camera list in dropdown
 - [x] Live video stream from selected camera
 - [x] Resizable window with proportional image scaling
-- [x] Fullscreen mode (keyboard, double-click, context menu)
-- [ ] Zero footprint verification (no files left after closing)
+- [x] Fullscreen mode (F11, F key, double-click, Esc, context menu)
+- [x] Context menu with camera list, fullscreen toggle, resolution info
+- [x] Zero footprint — portable .exe, no installer required
 
 ### Could Have (future):
 - [ ] Screenshot capture from camera
