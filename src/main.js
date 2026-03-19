@@ -24,13 +24,11 @@ async function listCameras() {
     updateCameraSelect();
     updateCameraMenu();
 
-    if (cameras.length === 1) {
-      selectCamera(cameras[0].deviceId);
-    } else if (cameras.length === 0) {
-      showStatus("Nie znaleziono kamer");
+    if (cameras.length === 0) {
+      showStatus("No cameras found");
     }
   } catch (err) {
-    showStatus("Brak dostępu do kamery: " + err.message);
+    showStatus("Camera access denied: " + err.message);
   }
 }
 
@@ -39,14 +37,22 @@ function updateCameraSelect() {
   if (cameras.length === 0) {
     const opt = document.createElement("option");
     opt.value = "";
-    opt.textContent = "-- Brak kamer --";
+    opt.textContent = "-- No cameras --";
     select.appendChild(opt);
     return;
   }
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "-- Choose camera --";
+  placeholder.disabled = true;
+  placeholder.selected = !currentDeviceId;
+  select.appendChild(placeholder);
+
   cameras.forEach((cam, i) => {
     const opt = document.createElement("option");
     opt.value = cam.deviceId;
-    opt.textContent = cam.label || "Kamera " + (i + 1);
+    opt.textContent = cam.label || "Camera " + (i + 1);
+    if (cam.deviceId === currentDeviceId) opt.selected = true;
     select.appendChild(opt);
   });
 }
@@ -55,7 +61,7 @@ function updateCameraMenu() {
   menuCameras.textContent = "";
   const label = document.createElement("div");
   label.className = "menu-section-label";
-  label.textContent = "Kamery";
+  label.textContent = "Cameras";
   menuCameras.appendChild(label);
 
   cameras.forEach((cam, i) => {
@@ -64,7 +70,7 @@ function updateCameraMenu() {
     if (cam.deviceId === currentDeviceId) {
       item.classList.add("active");
     }
-    item.textContent = cam.label || "Kamera " + (i + 1);
+    item.textContent = cam.label || "Camera " + (i + 1);
     item.addEventListener("click", () => {
       selectCamera(cam.deviceId);
       hideContextMenu();
@@ -102,7 +108,7 @@ async function selectCamera(deviceId) {
 
     updateCameraMenu();
   } catch (err) {
-    showStatus("Błąd kamery: " + err.message);
+    showStatus("Camera error: " + err.message);
   }
 }
 
@@ -164,7 +170,7 @@ async function toggleFullscreen() {
         isFullscreen = false;
       }
     }
-    menuFullscreen.textContent = isFullscreen ? "Wyjdź z pełnego ekranu" : "Pełny ekran";
+    menuFullscreen.textContent = isFullscreen ? "Exit fullscreen" : "Fullscreen";
   } catch (err) {
     console.error("Fullscreen error:", err);
   }

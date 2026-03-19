@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +8,9 @@
 </head>
 <body>
   <div class="toolbar">
-    <label for="cameraSelect">Kamera:</label>
+    <label for="cameraSelect">Camera:</label>
     <select id="cameraSelect">
-      <option value="">-- Wykrywanie kamer... --</option>
+      <option value="">-- Detecting cameras... --</option>
     </select>
     <span class="resolution" id="resolution"></span>
   </div>
@@ -18,14 +18,14 @@
   <div class="video-container" id="videoContainer">
     <video id="video" autoplay playsinline></video>
     <div class="no-camera" id="noCameraMsg">
-      <p>Wybierz kamerę z listy powyżej</p>
+      <p>Choose a camera from the list above</p>
     </div>
   </div>
 
   <div class="context-menu" id="contextMenu">
     <div class="menu-section" id="menuCameras"></div>
     <div class="menu-divider"></div>
-    <div class="menu-item" id="menuFullscreen">Pełny ekran</div>
+    <div class="menu-item" id="menuFullscreen">Fullscreen</div>
     <div class="menu-divider"></div>
     <div class="menu-item menu-info" id="menuResolution"></div>
   </div>
