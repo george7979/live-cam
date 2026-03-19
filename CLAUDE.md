@@ -6,9 +6,9 @@ Portable .exe (~8 MB), zero footprint, built via GitHub Actions CI/CD.
 
 ## Documentation
 Project follows the [Context Keeper Method (CKM)](https://github.com/george7979/context-keeper-method) — a documentation framework for AI-assisted work:
-- **PRD.md** — business requirements (WHAT & WHY)
-- **PLAN.md** — implementation plan (WHEN)
-- **TECH.md** — technical architecture (HOW)
+- **docs/PRD.md** — business requirements (WHAT & WHY)
+- **docs/PLAN.md** — implementation plan (WHEN)
+- **docs/TECH.md** — technical architecture (HOW)
 
 ## Tech Stack
 - **Frontend:** Vanilla HTML/CSS/JS (no framework) — `src/`
