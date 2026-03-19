@@ -16,7 +16,7 @@ Go to [Latest Release](https://github.com/george7979/live-cam/releases/latest) a
 - **Resizable window** — proportional scaling, maintains aspect ratio
 - **Fullscreen** — F11 key, right-click menu, or double-click
 - **Right-click menu** — camera switching, fullscreen toggle, resolution info
-- **Auto-detect** — automatically selects camera if only one is available
+- **Manual select** — choose your camera from the dropdown, no auto-start
 - **Hot-plug** — detects cameras being plugged in or removed
 - **Zero footprint** — no config files, no registry entries, delete .exe = full uninstall
 
@@ -28,13 +28,11 @@ Go to [Latest Release](https://github.com/george7979/live-cam/releases/latest) a
 | F   | Toggle fullscreen (alternative) |
 | Esc | Exit fullscreen / close context menu |
 
-## Windows SmartScreen Warning
+## Code Signing
 
-On first launch, Windows Defender SmartScreen may show a blue warning: *"Windows protected your PC"*. This happens because the app is not signed with a code signing certificate (which costs $200+/year).
+Free code signing provided by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/).
 
 The app is open-source — you can inspect the [full source code](https://github.com/george7979/live-cam) and the [build pipeline](.github/workflows/build.yml) that produces the .exe.
-
-To run it: click **"More info"** → **"Run anyway"**.
 
 ## Requirements
 
