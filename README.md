@@ -44,7 +44,9 @@ Go to [Latest Release](https://github.com/george7979/live-cam/releases/latest) a
 | T   | Toggle always on top |
 | Esc | Exit fullscreen / close context menu |
 
-## Code Signing
+## Code Signing (planned)
+
+> **Note:** Code signing is not yet active. The app currently ships unsigned — Windows SmartScreen may show a warning on first run. We plan to add free code signing through SignPath.io in a future release.
 
 Free code signing provided by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/).
 
