@@ -40,7 +40,8 @@ enumerateDevices() → camera list → dropdown/menu → getUserMedia({deviceId}
 - ✅ Tauri v2 with WebView2
 - ✅ Deferred camera discovery (user-initiated, no auto-detect on startup)
 - ✅ Discover button (↻) with spin animation + dropdown click trigger
-- ✅ Context menu (right-click): camera list, fullscreen, hide toolbar, resolution info
+- ✅ Settings button (⚙) in toolbar + right-click context menu
+- ✅ Context menu: fullscreen, hide toolbar, resolution info
 - ✅ Fullscreen: F11, F key, double-click, Esc to exit, context menu
 - ✅ Hide toolbar mode: removes decorations + toolbar, drag via video (B key or context menu)
 - ✅ Tauri v2 capabilities (window permissions)
@@ -133,13 +134,17 @@ High `ideal` values (4096×2160) request the camera's maximum supported resoluti
 { video: { deviceId: { exact: deviceId }, width: { ideal: 4096 }, height: { ideal: 2160 } } }
 ```
 
-### Context Menu (right-click)
-Custom HTML/JS menu via `contextmenu` event with `preventDefault()`:
-- Camera list with active camera marked (● prefix)
+### Settings / Context Menu
+Single shared menu accessible via:
+- **Settings button (⚙)** in toolbar — opens below button, toggles on click
+- **Right-click** anywhere — opens at cursor position
+
+Menu items:
 - Fullscreen toggle
 - Hide toolbar toggle
-- Resolution info (read-only)
-- Viewport edge correction for positioning
+- Resolution + FPS info (read-only, FPS rounded to integer)
+
+Viewport edge correction for positioning. In borderless mode, left-click on video dismisses menu before starting drag.
 
 ### Fullscreen
 Multiple entry points, all calling the same `toggleFullscreen()`:

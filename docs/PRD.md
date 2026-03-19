@@ -75,7 +75,8 @@ Minimalist desktop application for Windows whose sole purpose is displaying a li
 
 ### FR4: Context Menu (right-click on camera area)
 - **FR4.1** Right-click on video area opens context menu
-- **FR4.2** Menu options: fullscreen toggle, hide toolbar toggle, camera list, resolution info
+- **FR4.2** Menu options: fullscreen toggle, hide toolbar toggle, resolution info
+- **FR4.4** Settings button (⚙) in toolbar as alternative entry point to context menu
 - **FR4.3** Menu as alternative access to all functions
 
 ---

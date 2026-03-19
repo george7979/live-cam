@@ -11,15 +11,27 @@ Go to [Latest Release](https://github.com/george7979/live-cam/releases/latest) a
 
 ## Features
 
+### Camera
 - **Camera selection** — dropdown with all detected system cameras
-- **Live preview** — real-time video stream from selected camera
+- **Discover button** — manual camera detection (↻), no auto-scan on startup
+- **Hot-plug** — detects cameras being plugged in or removed after first discovery
+
+### Display
+- **Live preview** — real-time video stream at camera's native resolution
 - **Resizable window** — proportional scaling, maintains aspect ratio
-- **Fullscreen** — F11 key, right-click menu, or double-click
-- **Hide toolbar** — borderless mode for clean video-only view (right-click or B key)
-- **Right-click menu** — camera switching, fullscreen, hide toolbar, resolution info
-- **Manual select** — choose your camera from the dropdown, no auto-start
-- **Hot-plug** — detects cameras being plugged in or removed
+- **Fullscreen** — F11 key, double-click, or settings menu
+- **Hide toolbar** — borderless mode for clean video-only view, drag window by grabbing video
+- **Resolution info** — current resolution and FPS shown in settings menu
+
+### Interface
+- **Settings button** (⚙) — quick access to display options from toolbar
+- **Right-click menu** — same settings menu, available anywhere including borderless mode
+- **Keyboard shortcuts** — F11/F (fullscreen), B (borderless), Esc (exit)
+
+### Design
 - **Zero footprint** — no config files, no registry entries, delete .exe = full uninstall
+- **Portable** — single .exe (~8 MB), no installation required
+- **Dark theme** — easy on the eyes
 
 ## Keyboard Shortcuts
 
