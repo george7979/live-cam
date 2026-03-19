@@ -1,10 +1,10 @@
 const video = document.getElementById("video");
 const select = document.getElementById("cameraSelect");
 const discoverBtn = document.getElementById("discoverBtn");
+const settingsBtn = document.getElementById("settingsBtn");
 const resolutionEl = document.getElementById("resolution");
 const noCameraMsg = document.getElementById("noCameraMsg");
 const contextMenu = document.getElementById("contextMenu");
-const menuCameras = document.getElementById("menuCameras");
 const menuFullscreen = document.getElementById("menuFullscreen");
 const menuBorderless = document.getElementById("menuBorderless");
 const menuResolution = document.getElementById("menuResolution");
@@ -26,7 +26,6 @@ async function listCameras() {
     cameras = devices.filter((d) => d.kind === "videoinput");
 
     updateCameraSelect();
-    updateCameraMenu();
 
     if (cameras.length === 0) {
       showStatus("No cameras found");
@@ -68,27 +67,6 @@ function updateCameraSelect() {
   });
 }
 
-function updateCameraMenu() {
-  menuCameras.textContent = "";
-  const label = document.createElement("div");
-  label.className = "menu-section-label";
-  label.textContent = "Cameras";
-  menuCameras.appendChild(label);
-
-  cameras.forEach((cam, i) => {
-    const item = document.createElement("div");
-    item.className = "menu-item";
-    if (cam.deviceId === currentDeviceId) {
-      item.classList.add("active");
-    }
-    item.textContent = cam.label || "Camera " + (i + 1);
-    item.addEventListener("click", () => {
-      selectCamera(cam.deviceId);
-      hideContextMenu();
-    });
-    menuCameras.appendChild(item);
-  });
-}
 
 async function selectCamera(deviceId) {
   if (currentStream) {
@@ -116,8 +94,6 @@ async function selectCamera(deviceId) {
     const resText = settings.width + "x" + settings.height;
     resolutionEl.textContent = resText;
     menuResolution.textContent = resText + " @ " + (settings.frameRate || "?") + " fps";
-
-    updateCameraMenu();
   } catch (err) {
     showStatus("Camera error: " + err.message);
   }
@@ -163,7 +139,18 @@ function hideContextMenu() {
   contextMenu.classList.remove("visible");
 }
 
-document.addEventListener("click", hideContextMenu);
+document.addEventListener("click", (e) => {
+  if (e.target === settingsBtn) return;
+  hideContextMenu();
+});
+
+settingsBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const rect = settingsBtn.getBoundingClientRect();
+  contextMenu.style.left = rect.right - 200 + "px";
+  contextMenu.style.top = rect.bottom + 4 + "px";
+  contextMenu.classList.toggle("visible");
+});
 
 // --- Fullscreen ---
 
@@ -226,7 +213,12 @@ menuBorderless.addEventListener("click", () => {
 
 // Drag window in borderless mode
 video.addEventListener("mousedown", (e) => {
-  if (!isBorderless || e.button !== 0) return;
+  if (e.button !== 0) return;
+  if (contextMenu.classList.contains("visible")) {
+    hideContextMenu();
+    return;
+  }
+  if (!isBorderless) return;
   if (window.__TAURI__) {
     window.__TAURI__.window.getCurrentWindow().startDragging();
   }
