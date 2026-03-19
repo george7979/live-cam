@@ -35,6 +35,8 @@ Project follows the [Context Keeper Method (CKM)](https://github.com/george7979/
 - **Portable:** Standalone .exe is the primary deliverable
 - **No frameworks:** Frontend is vanilla JS, don't add React/Vue/etc.
 - **No resolution override:** Camera provides its native resolution
+- **No auto-discovery:** Camera detection is user-initiated (Discover button / dropdown click) — never call getUserMedia on startup
+- **English UI:** All user-facing text in English
 
 ## Commands
 ```bash
@@ -52,5 +54,7 @@ gh run download --repo george7979/live-cam --name live-cam-windows
 ## Security
 - No API keys, tokens, or secrets in repo
 - CSP in `tauri.conf.json` — restricted to `self` + `mediastream:`
-- `getUserMedia` as the only system permission
+- `getUserMedia` as the only system permission (deferred to user action)
 - Tauri capabilities in `src-tauri/capabilities/default.json` — only window fullscreen permissions
+- **Code signing:** SignPath.io OSS program (pending setup) — see `SIGNPATH-SETUP.md` (gitignored)
+- **License:** MIT

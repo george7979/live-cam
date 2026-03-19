@@ -6,8 +6,8 @@
 <!-- For implementation details → see TECH.md -->
 <!-- For timeline planning → see PLAN.md -->
 
-**Version:** 3.1
-**Date:** 2026-03-18
+**Version:** 4.0
+**Date:** 2026-03-19
 **Author:** Jerzy Maczewski
 **Purpose:** Lightweight native Windows desktop app for viewing system camera feeds
 
@@ -55,8 +55,9 @@ Minimalist desktop application for Windows whose sole purpose is displaying a li
 ### FR1: Camera Selection
 - **FR1.1** Display list of all cameras recognized by Windows
 - **FR1.2** Select camera from dropdown
-- **FR1.3** Auto-select if only one camera is available
+- **FR1.3** Manual camera discovery — no auto-detection on startup (user-initiated via Discover button or dropdown click)
 - **FR1.4** Seamless switching between cameras (no app restart needed)
+- **FR1.5** Discover button (↻) in toolbar for manual camera refresh
 
 ### FR2: Video Preview
 - **FR2.1** Display live video stream from selected camera
@@ -81,7 +82,7 @@ Minimalist desktop application for Windows whose sole purpose is displaying a li
 ## Non-functional Requirements
 
 ### Usability:
-- **NFR1** Portable .exe (~8 MB) — built automatically via GitHub Actions CI/CD
+- **NFR1** Portable .exe (~8 MB) — built automatically via GitHub Actions CI/CD, code-signed via SignPath (planned)
 - **NFR2** Intuitive interface — max 2 clicks to preview
 - **NFR3** Minimalist UI — only what's needed (camera dropdown + video + fullscreen)
 
@@ -105,7 +106,7 @@ Minimalist desktop application for Windows whose sole purpose is displaying a li
 
 | Metric | Target | Status |
 |--------|--------|--------|
-| Time to preview | < 5 seconds | ✅ Verified |
+| Time to preview | < 5 seconds from Discover click | ✅ Verified |
 | App size | < 50 MB | ✅ 8 MB |
 | CPU usage at 1080p | < 5% | To verify |
 
@@ -118,7 +119,7 @@ Minimalist desktop application for Windows whose sole purpose is displaying a li
 - **C2** Must use cameras recognized by the Windows system
 
 ### Assumptions:
-- **A1** Camera is connected and recognized by Windows before app launch
+- **A1** Camera is connected and recognized by Windows before user clicks Discover
 - **A2** Camera drivers are correctly installed
 - **A3** Development on WSL2 (Linux), Windows .exe built via GitHub Actions CI/CD
 - **A4** GitHub repository as code source and build pipeline

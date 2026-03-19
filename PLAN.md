@@ -6,8 +6,8 @@
 <!-- For business requirements → see PRD.md -->
 <!-- For technical implementation → see TECH.md -->
 
-**Version:** 3.1
-**Date:** 2026-03-18
+**Version:** 4.0
+**Date:** 2026-03-19
 **Project Manager:** Jerzy Maczewski
 **Methodology:** Iterative, CI/CD-driven
 
@@ -37,6 +37,12 @@
 
 ### Phase 5: Release ✅
 **Goal:** Merge dev → main, first stable release v1.0.0
+
+### Phase 6: Post-release UX & Security ✅
+**Goal:** Fix Norton/AV issues, improve camera discovery UX, switch UI to English
+
+### Phase 7: Code Signing 🔲
+**Goal:** SignPath.io integration for trusted .exe builds
 
 ---
 
@@ -80,12 +86,31 @@
 - [x] Tag v1.0.0 → GitHub Release with .exe
 - [x] Set main as default branch
 
+### Phase 6 — Post-release UX & Security ✅
+- [x] Remove auto-select camera on startup (fix black screen bug)
+- [x] Add "Choose camera" placeholder in dropdown
+- [x] Switch all UI text from Polish to English
+- [x] Deferred camera discovery — no getUserMedia on startup (fixes Norton/AV blocking)
+- [x] Add Discover button (↻) with spin animation
+- [x] Dropdown click also triggers discovery on first use
+- [x] devicechange listener only activates after first manual discovery
+- [x] Add MIT LICENSE file
+- [x] Update README with SignPath attribution
+
+### Phase 7 — Code Signing 🔲
+- [ ] Apply for SignPath.io OSS program
+- [ ] Configure SignPath project + signing policy
+- [ ] Add SIGNPATH_API_TOKEN to GitHub Secrets
+- [ ] Update build.yml with SignPath signing step
+- [ ] Verify signed .exe (Digital Signatures tab in Properties)
+- [ ] Merge dev → main, tag v1.1.0
+
 ---
 
 ## Progress Tracking
 
-### Current Status: v1.0.0 released ✅
-**Progress:** All phases complete. App published at https://github.com/george7979/live-cam/releases
+### Current Status: Phase 6 complete, Phase 7 pending ✅
+**Progress:** UX improvements deployed. Code signing awaiting SignPath OSS approval.
 
 ---
 

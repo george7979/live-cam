@@ -6,8 +6,8 @@
 <!-- For business context → see PRD.md -->
 <!-- For timeline and planning → see PLAN.md -->
 
-**Version:** 3.0
-**Date:** 2026-03-18
+**Version:** 4.0
+**Date:** 2026-03-19
 **Technical Lead:** Jerzy Maczewski + Claude Code
 **Stack:** Tauri v2 (Rust) + HTML/CSS/JS + GitHub Actions CI/CD
 
@@ -38,7 +38,8 @@ enumerateDevices() → camera list → dropdown/menu → getUserMedia({deviceId}
 ## Current Capabilities
 
 - ✅ Tauri v2 with WebView2
-- ✅ Camera enumeration, dropdown, live video stream
+- ✅ Deferred camera discovery (user-initiated, no auto-detect on startup)
+- ✅ Discover button (↻) with spin animation + dropdown click trigger
 - ✅ Context menu (right-click): camera list, fullscreen, resolution info
 - ✅ Fullscreen: F11, F key, double-click, Esc to exit, context menu
 - ✅ Tauri v2 capabilities (window permissions)
@@ -46,6 +47,8 @@ enumerateDevices() → camera list → dropdown/menu → getUserMedia({deviceId}
 - ✅ Path filter (only code changes trigger builds)
 - ✅ Cargo cache including ~/.cargo/bin (Tauri CLI)
 - ✅ Portable .exe (~8 MB)
+- ✅ MIT License
+- 🔲 Code signing via SignPath.io (pending OSS approval)
 
 ---
 
@@ -112,8 +115,16 @@ live-cam/
 
 ## Key Implementation Details
 
-### Camera Enumeration
+### Deferred Camera Discovery
+Camera detection is **not** performed on app startup. This avoids antivirus (Norton) intercepting `getUserMedia` during process initialization, which caused driver crashes and black screens.
+
+Discovery is triggered by:
+1. **Discover button (↻)** — always available in toolbar
+2. **Dropdown click** — triggers discovery on first use only (`mousedown` event, before dropdown opens)
+
 A temporary `getUserMedia({video: true})` call is required first so WebView2 returns device labels. Without it, `enumerateDevices()` returns empty `label` fields. The temporary stream is stopped immediately.
+
+The `devicechange` listener (hot-plug) is only registered **after** the first successful discovery, preventing background camera access before user interaction.
 
 ### Video Constraints
 High `ideal` values (4096×2160) request the camera's maximum supported resolution. Without `ideal`, getUserMedia defaults to 640×480. The camera provides the best it can — a 1080p camera gives 1080p, a 720p camera gives 720p:
@@ -139,8 +150,12 @@ Multiple entry points, all calling the same `toggleFullscreen()`:
 Uses Tauri window API (`window.__TAURI__.window.getCurrentWindow().setFullscreen()`) with browser Fullscreen API as fallback. Requires `core:window:allow-set-fullscreen` capability in `capabilities/default.json`.
 
 ### Device Change Listener
+Registered only after first manual discovery (not on startup):
 ```javascript
-navigator.mediaDevices.addEventListener("devicechange", listCameras)
+if (!discovered) {
+  discovered = true;
+  navigator.mediaDevices.addEventListener("devicechange", listCameras);
+}
 ```
 Automatically refreshes camera list when devices are plugged in or removed.
 
@@ -192,6 +207,8 @@ git tag v1.0.0 && git push origin v1.0.0   # → stable GitHub Release
 - ~~`--bundles none` invalid on Windows~~ → using `--bundles nsis`
 - ~~Fullscreen not working~~ → added Tauri capabilities + F key + dblclick
 - ~~Resolution capped at 1080p~~ → removed constraint, camera provides native res
+- ~~Black screen on first camera~~ → removed auto-select, deferred discovery
+- ~~Norton blocking camera on startup~~ → deferred getUserMedia to user-initiated action
 
 ### Potential:
 - **WebView2 Runtime** — required on target machine (pre-installed on Win 10 21H2+ / Win 11)
