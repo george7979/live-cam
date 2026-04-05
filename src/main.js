@@ -37,7 +37,13 @@ async function listCameras() {
       navigator.mediaDevices.addEventListener("devicechange", listCameras);
     }
   } catch (err) {
-    showStatus("Camera access denied: " + err.message);
+    if (err.name === "NotAllowedError") {
+      showStatus("Camera permission denied — allow access in browser/system settings");
+    } else if (err.name === "NotFoundError") {
+      showStatus("No cameras found on this device");
+    } else {
+      showStatus("Camera error: " + err.message);
+    }
   } finally {
     discoverBtn.classList.remove("discovering");
   }
@@ -83,6 +89,9 @@ async function selectCamera(deviceId) {
       },
     });
 
+    const track = stream.getVideoTracks()[0];
+    const settings = track.getSettings();
+
     currentStream = stream;
     currentDeviceId = deviceId;
     video.srcObject = stream;
@@ -90,12 +99,12 @@ async function selectCamera(deviceId) {
 
     select.value = deviceId;
 
-    const track = stream.getVideoTracks()[0];
-    const settings = track.getSettings();
     const resText = settings.width + "x" + settings.height;
     resolutionEl.textContent = resText;
     menuResolution.textContent = resText + " @ " + Math.round(settings.frameRate || 0) + " fps";
   } catch (err) {
+    resolutionEl.textContent = "";
+    menuResolution.textContent = "";
     showStatus("Camera error: " + err.message);
   }
 }
@@ -121,19 +130,19 @@ select.addEventListener("mousedown", () => {
 
 document.addEventListener("contextmenu", (e) => {
   e.preventDefault();
-  contextMenu.style.left = e.clientX + "px";
-  contextMenu.style.top = e.clientY + "px";
-
-  // Keep menu within viewport
-  const rect = contextMenu.getBoundingClientRect();
-  if (rect.right > window.innerWidth) {
-    contextMenu.style.left = e.clientX - rect.width + "px";
-  }
-  if (rect.bottom > window.innerHeight) {
-    contextMenu.style.top = e.clientY - rect.height + "px";
-  }
-
+  // Show offscreen first to measure dimensions
+  contextMenu.style.left = "-9999px";
   contextMenu.classList.add("visible");
+  const menuW = contextMenu.offsetWidth;
+  const menuH = contextMenu.offsetHeight;
+
+  let x = e.clientX;
+  let y = e.clientY;
+  if (x + menuW > window.innerWidth) x = e.clientX - menuW;
+  if (y + menuH > window.innerHeight) y = e.clientY - menuH;
+
+  contextMenu.style.left = x + "px";
+  contextMenu.style.top = y + "px";
 });
 
 function hideContextMenu() {
@@ -161,9 +170,9 @@ async function toggleFullscreen() {
   try {
     if (window.__TAURI__) {
       const win = window.__TAURI__.window.getCurrentWindow();
-      isFullscreen = await win.isFullscreen();
-      await win.setFullscreen(!isFullscreen);
-      isFullscreen = !isFullscreen;
+      const current = await win.isFullscreen();
+      await win.setFullscreen(!current);
+      isFullscreen = !current;
     } else {
       if (!document.fullscreenElement) {
         await document.documentElement.requestFullscreen();
