@@ -193,11 +193,6 @@ menuFullscreen.addEventListener("click", () => {
   hideContextMenu();
 });
 
-// Double-click on video to toggle fullscreen
-video.addEventListener("dblclick", () => {
-  toggleFullscreen();
-});
-
 // --- Borderless ---
 
 let isBorderless = false;
@@ -243,11 +238,17 @@ menuAlwaysOnTop.addEventListener("click", () => {
   hideContextMenu();
 });
 
-// Drag window in borderless mode
+// Fullscreen on double-click, drag window in borderless mode.
+// Uses e.detail on mousedown instead of dblclick — startDragging() hands the
+// mouse to the native drag loop, so dblclick never fires in borderless mode.
 video.addEventListener("mousedown", (e) => {
   if (e.button !== 0) return;
   if (contextMenu.classList.contains("visible")) {
     hideContextMenu();
+    return;
+  }
+  if (e.detail === 2) {
+    toggleFullscreen();
     return;
   }
   if (!isBorderless) return;
