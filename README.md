@@ -2,6 +2,11 @@
 
 Minimalist camera viewer for Windows and Linux. One job: display your system camera feed.
 
+<p align="center">
+  <img src="pics/live-cam-1.png" alt="Windowed mode with the settings menu open" height="340">
+  <img src="pics/live-cam-2.png" alt="Circle view in borderless mode — a floating camera bubble cutting through to the desktop" height="340">
+</p>
+
 ## Download
 
 Go to [Latest Release](https://github.com/george7979/live-cam/releases/latest) and pick:
