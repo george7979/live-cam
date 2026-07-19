@@ -162,6 +162,8 @@ body.borderless.shape-square:not(.fullscreen) .video-container {
   min-width: 200px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   z-index: 1000;
+  max-height: calc(100vh - 8px);
+  overflow-y: auto;
 }
 
 .context-menu.visible {

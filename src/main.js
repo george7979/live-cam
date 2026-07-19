@@ -131,21 +131,23 @@ select.addEventListener("mousedown", () => {
 
 // --- Context Menu ---
 
-document.addEventListener("contextmenu", (e) => {
-  e.preventDefault();
+function showContextMenu(x, y) {
   // Show offscreen first to measure dimensions
   contextMenu.style.left = "-9999px";
   contextMenu.classList.add("visible");
   const menuW = contextMenu.offsetWidth;
   const menuH = contextMenu.offsetHeight;
 
-  let x = e.clientX;
-  let y = e.clientY;
-  if (x + menuW > window.innerWidth) x = e.clientX - menuW;
-  if (y + menuH > window.innerHeight) y = e.clientY - menuH;
+  x = Math.max(0, Math.min(x, window.innerWidth - menuW));
+  y = Math.max(0, Math.min(y, window.innerHeight - menuH));
 
   contextMenu.style.left = x + "px";
   contextMenu.style.top = y + "px";
+}
+
+document.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+  showContextMenu(e.clientX, e.clientY);
 });
 
 function hideContextMenu() {
@@ -159,10 +161,12 @@ document.addEventListener("click", (e) => {
 
 settingsBtn.addEventListener("click", (e) => {
   e.stopPropagation();
+  if (contextMenu.classList.contains("visible")) {
+    hideContextMenu();
+    return;
+  }
   const rect = settingsBtn.getBoundingClientRect();
-  contextMenu.style.left = rect.right - 200 + "px";
-  contextMenu.style.top = rect.bottom + 4 + "px";
-  contextMenu.classList.toggle("visible");
+  showContextMenu(rect.right - 200, rect.bottom + 4);
 });
 
 // --- Fullscreen ---
