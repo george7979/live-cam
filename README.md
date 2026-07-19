@@ -1,6 +1,6 @@
 # Live Cam
 
-Minimalist camera viewer for Windows. One job: display your system camera feed.
+Minimalist camera viewer for Windows and Linux. One job: display your system camera feed.
 
 ## Download
 
@@ -8,6 +8,7 @@ Go to [Latest Release](https://github.com/george7979/live-cam/releases/latest) a
 
 - **`live-cam.exe`** — portable, no installation, just run it
 - **`Live Cam ... x64-setup.exe`** — installer (adds Start Menu shortcut, Add/Remove Programs entry)
+- **`Live Cam ... amd64.deb`** — Linux package (Debian/Ubuntu), install with `sudo apt install ./Live.Cam_*_amd64.deb`
 
 ## Features
 
@@ -21,6 +22,7 @@ Go to [Latest Release](https://github.com/george7979/live-cam/releases/latest) a
 - **Resizable window** — proportional scaling, maintains aspect ratio
 - **Fullscreen** — F11 key, double-click, or settings menu
 - **Hide toolbar** — borderless mode for clean video-only view, drag window by grabbing video
+- **View shapes** — crop the view to a circle or square from the right-click menu; in borderless mode only the shape stays visible, turning the app into a floating camera bubble
 - **Always on top** — pin window above all others
 - **Resolution info** — current resolution and FPS shown in settings menu
 
@@ -55,6 +57,7 @@ The app is open-source — you can inspect the [full source code](https://github
 ## Requirements
 
 - Windows 10 (21H2+) or Windows 11
+- Linux: Debian/Ubuntu-based distribution with WebKitGTK 4.1 (installed automatically as a `.deb` dependency)
 
 ## License
 
