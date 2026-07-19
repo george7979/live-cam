@@ -101,6 +101,36 @@ video {
   object-fit: contain;
 }
 
+/* View shape (rectangle is the default — no class).
+   Shapes are windowed-mode only: fullscreen always shows the full frame. */
+body.shape-circle:not(.fullscreen) .video-container,
+body.shape-square:not(.fullscreen) .video-container {
+  container-type: size;
+}
+
+body.shape-circle:not(.fullscreen) video,
+body.shape-square:not(.fullscreen) video {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(100cqw, 100cqh);
+  height: min(100cqw, 100cqh);
+  object-fit: cover;
+}
+
+body.shape-circle:not(.fullscreen) video {
+  clip-path: circle(closest-side);
+}
+
+/* In borderless mode the shape cuts through to the desktop */
+body.borderless.shape-circle:not(.fullscreen),
+body.borderless.shape-square:not(.fullscreen),
+body.borderless.shape-circle:not(.fullscreen) .video-container,
+body.borderless.shape-square:not(.fullscreen) .video-container {
+  background: transparent;
+}
+
 .no-camera {
   position: absolute;
   color: #555;

@@ -8,6 +8,9 @@ const contextMenu = document.getElementById("contextMenu");
 const menuFullscreen = document.getElementById("menuFullscreen");
 const menuBorderless = document.getElementById("menuBorderless");
 const menuAlwaysOnTop = document.getElementById("menuAlwaysOnTop");
+const menuShapeRect = document.getElementById("menuShapeRect");
+const menuShapeCircle = document.getElementById("menuShapeCircle");
+const menuShapeSquare = document.getElementById("menuShapeSquare");
 const menuResolution = document.getElementById("menuResolution");
 
 let currentStream = null;
@@ -182,6 +185,7 @@ async function toggleFullscreen() {
         isFullscreen = false;
       }
     }
+    document.body.classList.toggle("fullscreen", isFullscreen);
     menuFullscreen.textContent = isFullscreen ? "Exit fullscreen" : "Fullscreen";
   } catch (err) {
     console.error("Fullscreen error:", err);
@@ -205,6 +209,7 @@ async function toggleBorderless() {
       await win.setDecorations(!isBorderless);
       document.body.classList.toggle("borderless", isBorderless);
       menuBorderless.textContent = isBorderless ? "Show toolbar" : "Hide toolbar";
+      await updateWindowShadow();
     }
   } catch (err) {
     console.error("Borderless error:", err);
@@ -213,6 +218,64 @@ async function toggleBorderless() {
 
 menuBorderless.addEventListener("click", () => {
   toggleBorderless();
+  hideContextMenu();
+});
+
+// --- View Shape ---
+
+let currentShape = "rect";
+
+async function setShape(shape) {
+  currentShape = shape;
+  document.body.classList.toggle("shape-circle", shape === "circle");
+  document.body.classList.toggle("shape-square", shape === "square");
+  menuShapeRect.classList.toggle("active", shape === "rect");
+  menuShapeCircle.classList.toggle("active", shape === "circle");
+  menuShapeSquare.classList.toggle("active", shape === "square");
+  await updateWindowShadow();
+  if (shape !== "rect") await squareUpWindow();
+}
+
+// Shrink the window to a square so the inscribed shape fills it —
+// otherwise wide windows leave large invisible-but-clickable margins.
+async function squareUpWindow() {
+  if (!window.__TAURI__ || isFullscreen) return;
+  try {
+    const win = window.__TAURI__.window.getCurrentWindow();
+    const size = await win.innerSize();
+    const side = Math.min(size.width, size.height);
+    if (size.width !== size.height) {
+      await win.setSize(new window.__TAURI__.window.PhysicalSize(side, side));
+    }
+  } catch (err) {
+    console.error("Resize error:", err);
+  }
+}
+
+// The OS shadow is drawn for the rectangular window, so it would frame
+// the transparent corners around a cut-out shape.
+async function updateWindowShadow() {
+  if (!window.__TAURI__) return;
+  try {
+    const win = window.__TAURI__.window.getCurrentWindow();
+    await win.setShadow(!(isBorderless && currentShape !== "rect"));
+  } catch (err) {
+    console.error("Shadow error:", err);
+  }
+}
+
+menuShapeRect.addEventListener("click", () => {
+  setShape("rect");
+  hideContextMenu();
+});
+
+menuShapeCircle.addEventListener("click", () => {
+  setShape("circle");
+  hideContextMenu();
+});
+
+menuShapeSquare.addEventListener("click", () => {
+  setShape("square");
   hideContextMenu();
 });
 
