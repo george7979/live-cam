@@ -61,7 +61,7 @@ jobs:
 
   build-linux:
     runs-on: ubuntu-22.04
-    if: github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/tags/v')
 
     steps:
       - name: Checkout code
@@ -150,7 +150,7 @@ jobs:
             linux/*.deb
 
   release:
-    needs: build
+    needs: [build, build-linux]
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
     permissions:
@@ -169,10 +169,17 @@ jobs:
           name: live-cam-installer
           path: installer
 
+      - name: Download .deb package
+        uses: actions/download-artifact@v4
+        with:
+          name: live-cam-linux-deb
+          path: linux
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
             portable/live-cam.exe
             installer/*.exe
+            linux/*.deb
           generate_release_notes: true
