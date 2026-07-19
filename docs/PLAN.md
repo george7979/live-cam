@@ -6,8 +6,8 @@
 <!-- For business requirements → see PRD.md -->
 <!-- For technical implementation → see TECH.md -->
 
-**Version:** 4.0
-**Date:** 2026-03-19
+**Version:** 5.0
+**Date:** 2026-07-19
 **Project Manager:** Jerzy Maczewski
 **Methodology:** Iterative, CI/CD-driven
 
@@ -41,7 +41,13 @@
 ### Phase 6: Post-release UX & Security ✅
 **Goal:** Fix Norton/AV issues, improve camera discovery UX, switch UI to English
 
-### Phase 7: Code Signing 🔲
+### Phase 7: Bugfix Release v1.0.2 ✅
+**Goal:** Fix double-click fullscreen in borderless mode, camera error handling, release with Linux .deb
+
+### Phase 8: v1.1.0 — View Shapes ✅
+**Goal:** Circle/square views with desktop cut-through in borderless mode, small-window UI fixes
+
+### Phase 9: Code Signing 🔲
 **Goal:** SignPath.io integration for trusted .exe builds
 
 ---
@@ -97,20 +103,40 @@
 - [x] Add MIT LICENSE file
 - [x] Update README with SignPath attribution
 
-### Phase 7 — Code Signing 🔲
-- [ ] Apply for SignPath.io OSS program
+### Phase 7 — Bugfix Release v1.0.2 ✅ (2026-07-19)
+- [x] Fix double-click fullscreen in borderless mode
+- [x] Fix fullscreen state desync on rapid toggling
+- [x] Separate camera error messages (permission denied vs no cameras found)
+- [x] Validate stream before attaching, clear resolution display on failure
+- [x] Context menu dimensions measured before positioning
+- [x] CI: include Linux .deb build and attach it to stable releases
+- [x] Release v1.0.2 (portable .exe + NSIS installer + .deb, handwritten changelog)
+
+### Phase 8 — v1.1.0 View Shapes ✅ (2026-07-19)
+- [x] Rectangle / Circle / Square views in context menu
+- [x] Desktop cut-through in borderless mode (transparent window)
+- [x] Fix window transparency on Windows (undecorated + shadowless window creation)
+- [x] Snap window to square when a shape is selected
+- [x] Fullscreen override — always shows the full frame
+- [x] Toolbar overflow fix for narrow windows
+- [x] Context menu clamped to window bounds
+- [x] README: view shapes, Linux support, screenshots
+- [x] Release v1.1.0
+
+### Phase 9 — Code Signing 🔲
+- [ ] Apply for SignPath.io OSS program (owner action — see SIGNPATH-SETUP.md)
 - [ ] Configure SignPath project + signing policy
 - [ ] Add SIGNPATH_API_TOKEN to GitHub Secrets
-- [ ] Update build.yml with SignPath signing step
+- [ ] Update build.yml with SignPath signing step (portable .exe + NSIS installer)
 - [ ] Verify signed .exe (Digital Signatures tab in Properties)
-- [ ] Merge dev → main, tag v1.1.0
+- [ ] Merge dev → main, tag next release
 
 ---
 
 ## Progress Tracking
 
-### Current Status: Phase 6 complete, Phase 7 pending ✅
-**Progress:** UX improvements deployed. Code signing awaiting SignPath OSS approval.
+### Current Status: Phase 8 complete (v1.1.0 released), Phase 9 pending
+**Progress:** v1.1.0 shipped with view shapes and Linux .deb in stable releases. Code signing awaiting SignPath OSS application.
 
 ---
 

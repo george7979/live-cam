@@ -6,16 +6,16 @@
 <!-- For implementation details → see TECH.md -->
 <!-- For timeline planning → see PLAN.md -->
 
-**Version:** 4.0
-**Date:** 2026-03-19
+**Version:** 5.0
+**Date:** 2026-07-19
 **Author:** Jerzy Maczewski
-**Purpose:** Lightweight native Windows desktop app for viewing system camera feeds
+**Purpose:** Lightweight native desktop app (Windows & Linux) for viewing system camera feeds
 
 ---
 
 ## Executive Summary
 
-Minimalist desktop application for Windows whose sole purpose is displaying a live feed from a selected system camera (webcam, USB camera, virtual camera). Lightweight — fast startup, small footprint, zero unnecessary features. Resizable window with fullscreen support.
+Minimalist desktop application for Windows and Linux whose sole purpose is displaying a live feed from a selected system camera (webcam, USB camera, virtual camera). Lightweight — fast startup, small footprint, zero unnecessary features, no admin rights required. Resizable window with fullscreen support and optional circle/square view shapes that turn the borderless window into a floating camera bubble.
 
 ---
 
@@ -28,7 +28,8 @@ Minimalist desktop application for Windows whose sole purpose is displaying a li
 
 ### Business Context:
 - Personal utility tool
-- Target platform: Windows (native desktop application)
+- Target platforms: Windows and Linux (native desktop application)
+- Installable on corporate laptops — no admin rights or elevation required
 - Philosophy: one function, done right
 
 ---
@@ -80,6 +81,15 @@ Minimalist desktop application for Windows whose sole purpose is displaying a li
 - **FR4.4** Settings button (⚙) in toolbar as alternative entry point to context menu
 - **FR4.3** Menu as alternative access to all functions
 
+### FR5: View Shapes
+- **FR5.1** Three view shapes selectable from the context menu: Rectangle (default), Circle, Square
+- **FR5.2** Circle and Square crop the camera frame to fill the selected shape
+- **FR5.3** In hide-toolbar mode only the shape area stays visible — the rest of the window is transparent (floating camera bubble over the desktop)
+- **FR5.4** With the toolbar visible the shape is shown on a black background inside the window
+- **FR5.5** Selecting a shape snaps the window to a square; the shape stays inscribed on resize
+- **FR5.6** Fullscreen always shows the full camera frame regardless of the selected shape
+- **FR5.7** Shape resets to Rectangle on restart (zero footprint — no persistence)
+
 ---
 
 ## Non-functional Requirements
@@ -100,8 +110,8 @@ Minimalist desktop application for Windows whose sole purpose is displaying a li
 - **NFR9** Smooth video — no added rendering delay
 
 ### Compatibility:
-- **NFR10** Windows 10/11 as target platform
-- **NFR11** Support for standard system cameras via WebView2 getUserMedia
+- **NFR10** Windows 10/11 and Debian/Ubuntu-based Linux (`.deb` package) as target platforms
+- **NFR11** Support for standard system cameras via getUserMedia (WebView2 on Windows, WebKitGTK on Linux)
 
 ---
 
@@ -118,8 +128,8 @@ Minimalist desktop application for Windows whose sole purpose is displaying a li
 ## Constraints & Assumptions
 
 ### Technical Constraints:
-- **C1** App must run natively on Windows (not in a browser)
-- **C2** Must use cameras recognized by the Windows system
+- **C1** App must run natively on Windows and Linux (not in a browser)
+- **C2** Must use cameras recognized by the operating system
 
 ### Assumptions:
 - **A1** Camera is connected and recognized by Windows before user clicks Discover
@@ -138,6 +148,8 @@ Minimalist desktop application for Windows whose sole purpose is displaying a li
 - [x] Fullscreen mode (F11, F key, double-click, Esc, context menu)
 - [x] Context menu with camera list, fullscreen toggle, resolution info
 - [x] Zero footprint — portable .exe, no installer required
+- [x] View shapes: rectangle / circle / square with desktop cut-through in hide-toolbar mode
+- [x] Linux `.deb` package published in stable releases
 
 ### Could Have (future):
 - [ ] Screenshot capture from camera
