@@ -209,7 +209,6 @@ async function toggleBorderless() {
       await win.setDecorations(!isBorderless);
       document.body.classList.toggle("borderless", isBorderless);
       menuBorderless.textContent = isBorderless ? "Show toolbar" : "Hide toolbar";
-      await updateWindowShadow();
     }
   } catch (err) {
     console.error("Borderless error:", err);
@@ -232,7 +231,6 @@ async function setShape(shape) {
   menuShapeRect.classList.toggle("active", shape === "rect");
   menuShapeCircle.classList.toggle("active", shape === "circle");
   menuShapeSquare.classList.toggle("active", shape === "square");
-  await updateWindowShadow();
   if (shape !== "rect") await squareUpWindow();
 }
 
@@ -249,18 +247,6 @@ async function squareUpWindow() {
     }
   } catch (err) {
     console.error("Resize error:", err);
-  }
-}
-
-// The OS shadow is drawn for the rectangular window, so it would frame
-// the transparent corners around a cut-out shape.
-async function updateWindowShadow() {
-  if (!window.__TAURI__) return;
-  try {
-    const win = window.__TAURI__.window.getCurrentWindow();
-    await win.setShadow(!(isBorderless && currentShape !== "rect"));
-  } catch (err) {
-    console.error("Shadow error:", err);
   }
 }
 
@@ -346,3 +332,12 @@ document.addEventListener("keydown", (e) => {
 // --- Init ---
 
 discoverBtn.addEventListener("click", listCameras);
+
+// The window is created undecorated, shadowless and hidden: a Windows window
+// created with decorations or an undecorated shadow never becomes transparent
+// (tauri-apps/tauri#8632), which the cut-out shapes rely on. Decorations are
+// restored here, then the window is shown.
+if (window.__TAURI__) {
+  const win = window.__TAURI__.window.getCurrentWindow();
+  win.setDecorations(true).finally(() => win.show());
+}

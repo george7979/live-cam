@@ -117,6 +117,8 @@ body.shape-square:not(.fullscreen) video {
   width: min(100cqw, 100cqh);
   height: min(100cqw, 100cqh);
   object-fit: cover;
+  /* No-op filter keeps the video off hardware overlay planes, which ignore clip-path */
+  filter: brightness(1);
 }
 
 body.shape-circle:not(.fullscreen) video {
