@@ -21,6 +21,7 @@ Go to [Latest Release](https://github.com/george7979/live-cam/releases/latest) a
 - **Camera selection** — dropdown with all detected system cameras
 - **Discover button** — manual camera detection (↻), no auto-scan on startup
 - **Hot-plug** — detects cameras being plugged in or removed after first discovery
+- **Switch by keyboard** — Space/Tab cycles through cameras, 1–9 jumps straight to one; works without the toolbar, so you can swap cameras in borderless mode
 
 ### Display
 - **Live preview** — real-time video stream at camera's native resolution
@@ -34,7 +35,7 @@ Go to [Latest Release](https://github.com/george7979/live-cam/releases/latest) a
 ### Interface
 - **Settings button** (⚙) — quick access to display options from toolbar
 - **Right-click menu** — same settings menu, available anywhere including borderless mode
-- **Keyboard shortcuts** — F11/F (fullscreen), B (borderless), T (always on top), Esc (exit)
+- **Keyboard shortcuts** — F11/F (fullscreen), B (borderless), T (always on top), Space/Tab and 1–9 (switch camera), Esc (exit)
 
 ### Design
 - **Zero footprint** — no config files, no registry entries, delete .exe = full uninstall
@@ -49,7 +50,16 @@ Go to [Latest Release](https://github.com/george7979/live-cam/releases/latest) a
 | F   | Toggle fullscreen (alternative) |
 | B   | Toggle hide toolbar (borderless) |
 | T   | Toggle always on top |
+| Space / Tab | Next camera |
+| Shift+Tab | Previous camera |
+| 1–9 | Switch to camera by position in the list |
 | Esc | Exit fullscreen / close context menu |
+
+Camera shortcuts act on the cameras already discovered — they do nothing before
+the first discovery, so the camera is never opened without your action. While a
+toolbar control has keyboard focus, Space and Tab keep their native meaning;
+click the video to hand focus back. In borderless mode the toolbar is gone, so
+the shortcuts always apply.
 
 ## Code Signing (planned)
 

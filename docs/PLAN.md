@@ -50,6 +50,9 @@
 ### Phase 9: Code Signing 🔲
 **Goal:** SignPath.io integration for trusted .exe builds
 
+### Phase 10: Keyboard Camera Switching 🚧
+**Goal:** Switch cameras without the toolbar — Space/Tab cycle, 1–9 direct
+
 ---
 
 ## Task Breakdown
@@ -131,12 +134,22 @@
 - [ ] Verify signed .exe (Digital Signatures tab in Properties)
 - [ ] Merge dev → main, tag next release
 
+### Phase 10 — Keyboard Camera Switching 🚧 (2026-08-17)
+- [x] Cycle shortcut: Space / Tab forward, Shift+Tab back
+- [x] Direct shortcut: digits 1–9 by position in the camera list
+- [x] Yield to toolbar controls while they hold keyboard focus
+- [x] Reject auto-repeat and overlapping switches
+- [x] Silent no-op before first discovery and for out-of-range digits
+- [x] Docs: README shortcut table, PRD FR1.6, TECH implementation notes
+- [ ] Verify on Windows build (no cameras available under WSL2)
+- [ ] Version bump + release (owner decision)
+
 ---
 
 ## Progress Tracking
 
-### Current Status: Phase 8 complete (v1.1.0 released), Phase 9 pending
-**Progress:** v1.1.0 shipped with view shapes and Linux .deb in stable releases. Code signing awaiting SignPath OSS application.
+### Current Status: Phase 10 in progress, Phase 9 pending
+**Progress:** v1.1.0 shipped with view shapes and Linux .deb in stable releases. Keyboard camera switching implemented on `dev`, awaiting verification on a Windows build — WSL2 exposes no cameras, so the feature cannot be exercised locally. Code signing awaiting SignPath OSS application.
 
 ---
 

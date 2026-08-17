@@ -42,6 +42,7 @@ enumerateDevices() → camera list → dropdown/menu → getUserMedia({deviceId}
 - ✅ Tauri v2 with WebView2 (Windows) / WebKitGTK (Linux)
 - ✅ Deferred camera discovery (user-initiated, no auto-detect on startup)
 - ✅ Discover button (↻) with spin animation + dropdown click trigger
+- ✅ Camera switching by keyboard: Space/Tab cycle, Shift+Tab reverse, 1–9 direct (works in borderless)
 - ✅ Settings button (⚙) in toolbar + right-click context menu
 - ✅ Context menu: fullscreen, hide toolbar, always on top, view shapes, resolution info
 - ✅ Fullscreen: F11, F key, double-click (also in borderless mode), Esc to exit, context menu
@@ -134,6 +135,30 @@ Discovery is triggered by:
 A temporary `getUserMedia({video: true})` call is required first so WebView2 returns device labels. Without it, `enumerateDevices()` returns empty `label` fields. The temporary stream is stopped immediately.
 
 The `devicechange` listener (hot-plug) is only registered **after** the first successful discovery, preventing background camera access before user interaction.
+
+### Camera Switching Shortcuts
+Keyboard switching without the toolbar — `Space`/`Tab` cycle forward, `Shift+Tab` back,
+`1`–`9` jump to a position in `cameras[]`. Both paths call the existing `selectCamera()`,
+which already syncs the dropdown, so there is no second code path for the stream.
+
+Three collisions are handled explicitly:
+- **Toolbar focus** — the shortcuts are gated on `document.activeElement === document.body`.
+  While a control holds focus, `Space` and `Tab` keep their native meaning (activating a
+  button, moving focus), which keyboard navigation of the toolbar depends on. In borderless
+  mode `.toolbar` is `display: none`, so it is out of the focus order and the gate is always
+  open. The gate sits **after** the existing F/T/B handlers so their behaviour is unchanged.
+- **Auto-repeat** — a held key fires ~30 `keydown`/s; `e.repeat` is rejected, otherwise each
+  event would stop the stream and re-enter `getUserMedia()` (flicker, `NotReadableError`).
+- **Overlapping switches** — `selectCamera()` is async and only updates `currentDeviceId`
+  once the new stream is live, so a second press would compute its target from stale state
+  and run two `getUserMedia()` calls against the same device. A `switching` flag (released in
+  `finally`, so a failed switch cannot wedge it) drops presses arriving mid-switch; they are
+  not queued.
+
+Index bounds (`i >= cameras.length`) cover both an out-of-range digit and the pre-discovery
+state — with `cameras[]` empty every index is out of range, so the shortcuts stay silent and
+never open a camera without user action, per Deferred Camera Discovery. Positions follow the
+current `enumerateDevices()` order and shift on hot-plug; nothing is persisted (zero footprint).
 
 ### Video Constraints
 High `ideal` values (4096×2160) request the camera's maximum supported resolution. Without `ideal`, getUserMedia defaults to 640×480. The camera provides the best it can — a 1080p camera gives 1080p, a 720p camera gives 720p:

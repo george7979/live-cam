@@ -310,6 +310,31 @@ video.addEventListener("mousedown", (e) => {
   }
 });
 
+// --- Camera Switching ---
+
+// selectCamera() is async and only updates currentDeviceId once the new stream
+// is live, so overlapping calls would compute the next index from stale state.
+let switching = false;
+
+async function switchToIndex(i) {
+  if (switching || i < 0 || i >= cameras.length) return;
+  const target = cameras[i];
+  if (target.deviceId === currentDeviceId) return;
+  switching = true;
+  try {
+    await selectCamera(target.deviceId);
+  } finally {
+    switching = false;
+  }
+}
+
+function cycleCamera(step) {
+  if (!cameras.length) return;
+  const at = cameras.findIndex((c) => c.deviceId === currentDeviceId);
+  const len = cameras.length;
+  switchToIndex(at === -1 ? 0 : (at + step + len) % len);
+}
+
 // --- Keyboard Shortcuts ---
 
 document.addEventListener("keydown", (e) => {
@@ -330,6 +355,20 @@ document.addEventListener("keydown", (e) => {
       toggleFullscreen();
     }
     hideContextMenu();
+  }
+
+  // Camera shortcuts yield to the toolbar: while a control holds focus, Space
+  // and Tab keep their native meaning. In borderless mode the toolbar is
+  // display:none, so focus always rests on body and these always apply.
+  if (e.repeat || document.activeElement !== document.body) return;
+
+  if (e.key === "Tab" || e.key === " ") {
+    e.preventDefault();
+    cycleCamera(e.shiftKey ? -1 : 1);
+  }
+  if (/^[1-9]$/.test(e.key)) {
+    e.preventDefault();
+    switchToIndex(Number(e.key) - 1);
   }
 });
 

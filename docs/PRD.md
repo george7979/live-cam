@@ -59,6 +59,7 @@ Minimalist desktop application for Windows and Linux whose sole purpose is displ
 - **FR1.3** Manual camera discovery — no auto-detection on startup (user-initiated via Discover button or dropdown click)
 - **FR1.4** Seamless switching between cameras (no app restart needed)
 - **FR1.5** Discover button (↻) in toolbar for manual camera refresh
+- **FR1.6** Switch cameras from the keyboard — cycle to the next/previous camera or jump to one by its position in the list. Needed because in hide-toolbar mode the dropdown is unreachable: swapping cameras otherwise means restoring the toolbar, picking from the list and hiding it again. Acts only on cameras already discovered, so it never opens a camera without user action
 
 ### FR2: Video Preview
 - **FR2.1** Display live video stream from selected camera
@@ -150,6 +151,7 @@ Minimalist desktop application for Windows and Linux whose sole purpose is displ
 - [x] Zero footprint — portable .exe, no installer required
 - [x] View shapes: rectangle / circle / square with desktop cut-through in hide-toolbar mode
 - [x] Linux `.deb` package published in stable releases
+- [ ] Keyboard camera switching, usable with the toolbar hidden
 
 ### Could Have (future):
 - [ ] Screenshot capture from camera
