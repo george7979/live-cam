@@ -151,7 +151,7 @@ Minimalist desktop application for Windows and Linux whose sole purpose is displ
 - [x] Zero footprint — portable .exe, no installer required
 - [x] View shapes: rectangle / circle / square with desktop cut-through in hide-toolbar mode
 - [x] Linux `.deb` package published in stable releases
-- [ ] Keyboard camera switching, usable with the toolbar hidden
+- [x] Keyboard camera switching, usable with the toolbar hidden
 
 ### Could Have (future):
 - [ ] Screenshot capture from camera
