@@ -53,6 +53,9 @@
 ### Phase 10: v1.2.0 — Keyboard Camera Switching ✅
 **Goal:** Switch cameras without the toolbar — Space/Tab cycle, 1–9 direct
 
+### Phase 11: v1.2.1 — Linux Camera Fix 🔄
+**Goal:** Camera discovery works in the Linux .deb; Windows build unchanged
+
 ---
 
 ## Task Breakdown
@@ -144,14 +147,22 @@
 - [x] Verify on Windows build (no cameras available under WSL2)
 - [x] Release v1.2.0
 
+### Phase 11 — v1.2.1 Linux Camera Fix 🔄 (started 2026-10-22)
+- [x] Diagnose "Discover hangs" on Linux (TECH Known Issues)
+- [ ] Linux-only `permission-request` handler (Windows code path untouched)
+- [ ] Status message visible inside the video area (shared CSS, owner-approved)
+- [ ] Local Linux build and verification on real cameras
+- [ ] Release v1.2.1
+
 ---
 
 ## Progress Tracking
 
-### Current Status: Phase 10 complete (v1.2.0 released), Phase 9 pending
-**Progress:** v1.2.0 adds keyboard camera switching, verified on a Windows build (WSL2 exposes no cameras, so the feature cannot be exercised locally). Code signing awaiting SignPath OSS application.
+### Current Status: Phase 11 in progress (Linux camera fix), Phase 9 pending
+**Progress:** Linux root cause found — WebKitGTK denies camera permission because wry has no Linux handler, and the error message renders off-screen. Next step: implement the Linux-only handler and CSS fix, build locally (Rust toolchain installed on spikeroog). Code signing awaiting SignPath OSS application.
 
 ### Backlog:
+- Linux: title-bar minimize, data-dir footprint, duplicate V4L2 entries (see TECH Known Issues)
 - CI actions still target Node.js 20, which GitHub has deprecated — bump `actions/checkout`, `setup-node`, `cache`, `upload-artifact`, `download-artifact` and `softprops/action-gh-release` before the runners drop support
 
 ---

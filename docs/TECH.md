@@ -298,6 +298,22 @@ burned (bumped on dev, never released) — do not reuse.
 
 ## Known Issues
 
+### Open:
+- **Linux: Discover does nothing** (v1.2.0 .deb, WebKitGTK 2.52, GNOME/Wayland). Not a hang —
+  `getUserMedia` rejects with `NotAllowedError` in ~20 ms. wry handles `permission-request` only
+  on Windows/Android; WebKitGTK's default handler denies. The error text is then invisible:
+  `.no-camera` is `position: absolute` without offsets, so it sits at its static position below
+  the 100%-high `<video>`, clipped by `.video-container` (`overflow: hidden`) — same layout on
+  Windows, only rarely visible there. Fix in Phase 11
+- **Linux: title-bar minimize does nothing** — clicks reach GTK but no `xdg_toplevel.set_minimized`
+  is sent; likely tied to creating the window undecorated and enabling decorations from JS
+- **Linux: footprint** — WebKitGTK data dir `~/.local/share/com.livecam.app` (salts, caches) is
+  created on first run, against the zero-footprint principle
+- **Linux: duplicate camera entries** — each UVC camera exposes two V4L2 nodes, so the list shows
+  four "Integrated Camera (V4L2)" entries for two cameras
+- **Linux: started outside the desktop launcher** (e.g. from a terminal) the camera portal has no
+  app ID, asks for a system dialog, and GNOME Shell refuses it ("Only the focused app is allowed…")
+
 ### Resolved:
 - ~~`--bundles none` invalid on Windows~~ → using `--bundles nsis`
 - ~~Fullscreen not working~~ → added Tauri capabilities + F key + dblclick
