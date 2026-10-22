@@ -153,6 +153,7 @@
 - [x] Status message visible inside the video area (shared CSS, owner-approved)
 - [x] Local Linux build and verification on real cameras (inspector-driven check, stream 1280×720)
 - [x] Wayland title-bar buttons (minimize/close) unblocked — Linux-only workaround for tao < 0.36
+- [x] Camera list deduplicated by `deviceId`, repeated labels numbered
 - [x] Owner check of the installed .deb: discovery, camera stream, title-bar minimize/close
 - [ ] Verify Windows build from CI after push to `dev`
 - [ ] Release v1.2.1
@@ -165,7 +166,7 @@
 **Progress:** Linux camera fix and Wayland title-bar fix implemented on `dev` and verified on a local .deb build with real cameras. Owner confirmed the installed .deb. Next step: push to `dev` for the CI Windows build, verify it, then release v1.2.1. Code signing awaiting SignPath OSS application.
 
 ### Backlog:
-- Linux: data-dir footprint, duplicate camera entries — dedupe by `deviceId` (see TECH Known Issues)
+- Linux: data-dir footprint (see TECH Known Issues)
 - Upgrade Tauri 2.10 → 2.12 (tao 0.37 fixes the Wayland title bar upstream; drop the workaround) — touches the Windows build, needs a Windows CI check
 - CI actions still target Node.js 20, which GitHub has deprecated — bump `actions/checkout`, `setup-node`, `cache`, `upload-artifact`, `download-artifact` and `softprops/action-gh-release` before the runners drop support
 

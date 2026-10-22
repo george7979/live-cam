@@ -138,6 +138,9 @@ Discovery is triggered by:
 
 A temporary `getUserMedia({video: true})` call is required first so WebView2 returns device labels. Without it, `enumerateDevices()` returns empty `label` fields. The temporary stream is stopped immediately.
 
+The camera list is deduplicated by `deviceId` (WebKitGTK repeats entries); cameras sharing a label
+get a "#2", "#3" suffix so they stay distinguishable.
+
 The `devicechange` listener (hot-plug) is only registered **after** the first successful discovery, preventing background camera access before user interaction.
 
 ### Camera Permission on Linux
@@ -332,10 +335,6 @@ burned (bumped on dev, never released) — do not reuse.
 ### Open:
 - **Linux: footprint** — WebKitGTK data dir `~/.local/share/com.livecam.app` (salts, caches) is
   created on first run, against the zero-footprint principle
-- **Linux: duplicate camera entries** — WebKitGTK's `enumerateDevices()` returns every camera twice
-  with the same `deviceId` (likely seen via both PipeWire and libcamera). On the test laptop
-  (RGB 1280×720 + IR 640×360 GREY) that gives four "Integrated Camera (V4L2)" entries for two
-  cameras; the metadata nodes `/dev/video1`/`video3` are not listed
 - **Linux: started outside the desktop launcher** (e.g. from a terminal) the camera portal has no
   app ID, asks for a system dialog, and GNOME Shell refuses it ("Only the focused app is allowed…")
 
@@ -351,6 +350,9 @@ burned (bumped on dev, never released) — do not reuse.
 - ~~Context menu escaping small windows~~ → clamp to window bounds + scrollable menu (v1.1.0)
 - ~~Linux: Discover seemed to hang~~ (regression check: `scripts/verify-linux.sh`) → `getUserMedia` was denied at once (no wry permission
   handler) and the error rendered off-screen; Linux-only handler + overlaid status message (v1.2.1)
+- ~~Linux: every camera listed twice~~ → WebKitGTK's `enumerateDevices()` repeats each camera with
+  the same `deviceId` (likely via both PipeWire and libcamera); deduped by `deviceId`, repeated
+  labels get "#2", "#3" (v1.2.1). Test laptop: RGB 1280×720 + IR 640×360, both "Integrated Camera (V4L2)"
 - ~~Linux/Wayland: title-bar minimize and close dead~~ → tao's EventBox title bar swallowed the
   clicks; Linux-only `set_above_child(false)` (v1.2.1)
 
