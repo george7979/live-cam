@@ -149,9 +149,11 @@
 
 ### Phase 11 — v1.2.1 Linux Camera Fix 🔄 (started 2026-10-22)
 - [x] Diagnose "Discover hangs" on Linux (TECH Known Issues)
-- [ ] Linux-only `permission-request` handler (Windows code path untouched)
-- [ ] Status message visible inside the video area (shared CSS, owner-approved)
-- [ ] Local Linux build and verification on real cameras
+- [x] Linux-only `permission-request` handler (Windows code path untouched)
+- [x] Status message visible inside the video area (shared CSS, owner-approved)
+- [x] Local Linux build and verification on real cameras (inspector-driven check, stream 1280×720)
+- [ ] Owner check of the local .deb at the machine (not over remote desktop)
+- [ ] Verify Windows build from CI after push to `dev`
 - [ ] Release v1.2.1
 
 ---
@@ -159,7 +161,7 @@
 ## Progress Tracking
 
 ### Current Status: Phase 11 in progress (Linux camera fix), Phase 9 pending
-**Progress:** Linux root cause found — WebKitGTK denies camera permission because wry has no Linux handler, and the error message renders off-screen. Next step: implement the Linux-only handler and CSS fix, build locally (Rust toolchain installed on spikeroog). Code signing awaiting SignPath OSS application.
+**Progress:** Linux fix implemented on `dev` and verified on a local .deb build with real cameras. Next step: owner tests the .deb at the machine, then push to `dev` for the CI Windows build, then release v1.2.1. Code signing awaiting SignPath OSS application.
 
 ### Backlog:
 - Linux: title-bar minimize, data-dir footprint, duplicate V4L2 entries (see TECH Known Issues)

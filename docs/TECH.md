@@ -83,7 +83,8 @@ enumerateDevices() → camera list → dropdown/menu → getUserMedia({deviceId}
 - **Stable release:** Created on `v*` tags via `softprops/action-gh-release` with all three artifacts; tag builds use the workflow **from the tagged commit** (land CI fixes before tagging)
 
 ### Development:
-- **Environment:** WSL2 (Linux) — `cargo tauri dev` with WebKit2GTK
+- **Environment:** WSL2 (Linux) — `cargo tauri dev` with WebKit2GTK; native Linux (spikeroog,
+  Ubuntu 26.04) builds the .deb locally and has real cameras
 - **Rust version:** 1.94+
 - **Package Manager:** npm (frontend) + cargo (Tauri)
 
@@ -100,6 +101,9 @@ live-cam/
 │   ├── PLAN.md                # Implementation plan (WHEN)
 │   └── TECH.md                # Technical docs (HOW)
 ├── pics/                      # README screenshots
+├── scripts/
+│   ├── verify-linux.sh        # Linux check on real cameras (via WebKit inspector)
+│   └── inspector.py           # Evaluate JS in the release webview
 ├── .github/workflows/
 │   └── build.yml              # GitHub Actions workflow (Windows + Linux jobs)
 ├── .gitignore
@@ -114,7 +118,7 @@ live-cam/
 │   ├── icons/
 │   ├── gen/
 │   └── src/
-│       └── main.rs            # Minimal entry point
+│       └── main.rs            # Entry point + Linux camera-permission handler
 └── src/
     ├── index.html             # Layout: toolbar + video + context menu
     ├── style.css              # Dark theme
@@ -135,6 +139,24 @@ Discovery is triggered by:
 A temporary `getUserMedia({video: true})` call is required first so WebView2 returns device labels. Without it, `enumerateDevices()` returns empty `label` fields. The temporary stream is stopped immediately.
 
 The `devicechange` listener (hot-plug) is only registered **after** the first successful discovery, preventing background camera access before user interaction.
+
+### Camera Permission on Linux
+WebView2 shows its own camera prompt; WebKitGTK instead emits `permission-request` on the
+WebView and **denies** it when no handler answers — and wry registers none on Linux. `main.rs`
+therefore connects a handler in `setup`, compiled only under `cfg(target_os = "linux")` (the
+`webkit2gtk` crate is a Linux-only target dependency), so the Windows build is unchanged:
+- `UserMediaPermissionRequest` for video without audio → allow
+- `DeviceInfoPermissionRequest` (device labels for `enumerateDevices`) → allow
+- anything else → falls through to WebKitGTK's default (deny)
+
+Allowing the WebKit request does not bypass the OS: WebKitGTK captures through the XDG camera
+portal, which asks once per app ID (stored in the portal permission store under `Live Cam`).
+
+### Status Message
+`#noCameraMsg` overlays the whole `.video-container` (`inset: 0`, flex-centred,
+`pointer-events: none` so double-click fullscreen and borderless dragging still reach the video).
+Without offsets an absolutely positioned element sits at its static position — below the
+100%-high `<video>`, clipped out of view.
 
 ### Camera Switching Shortcuts
 Keyboard switching without the toolbar — `Space`/`Tab` cycle forward, `Shift+Tab` back,
@@ -299,12 +321,6 @@ burned (bumped on dev, never released) — do not reuse.
 ## Known Issues
 
 ### Open:
-- **Linux: Discover does nothing** (v1.2.0 .deb, WebKitGTK 2.52, GNOME/Wayland). Not a hang —
-  `getUserMedia` rejects with `NotAllowedError` in ~20 ms. wry handles `permission-request` only
-  on Windows/Android; WebKitGTK's default handler denies. The error text is then invisible:
-  `.no-camera` is `position: absolute` without offsets, so it sits at its static position below
-  the 100%-high `<video>`, clipped by `.video-container` (`overflow: hidden`) — same layout on
-  Windows, only rarely visible there. Fix in Phase 11
 - **Linux: title-bar minimize does nothing** — clicks reach GTK but no `xdg_toplevel.set_minimized`
   is sent; likely tied to creating the window undecorated and enabling decorations from JS
 - **Linux: footprint** — WebKitGTK data dir `~/.local/share/com.livecam.app` (salts, caches) is
@@ -324,6 +340,8 @@ burned (bumped on dev, never released) — do not reuse.
 - ~~Window transparency broken on Windows~~ → window created undecorated + shadowless (v1.1.0, tauri#8632)
 - ~~Toolbar buttons pushed out of narrow windows~~ → flex `min-width: 0` / `flex-shrink: 0` split (v1.1.0)
 - ~~Context menu escaping small windows~~ → clamp to window bounds + scrollable menu (v1.1.0)
+- ~~Linux: Discover seemed to hang~~ (regression check: `scripts/verify-linux.sh`) → `getUserMedia` was denied at once (no wry permission
+  handler) and the error rendered off-screen; Linux-only handler + overlaid status message (v1.2.1)
 
 ### Potential:
 - **WebView2 Runtime** — required on target machine (pre-installed on Win 10 21H2+ / Win 11)

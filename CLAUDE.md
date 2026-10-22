@@ -26,7 +26,7 @@ Project follows the [Context Keeper Method (CKM)](https://github.com/george7979/
 ## Coding Standards
 - JavaScript: ES6+, vanilla (no npm dependencies in frontend)
 - CSS: separate `style.css`, dark theme
-- Rust: minimal `main.rs`, Tauri setup only
+- Rust: minimal `main.rs`, Tauri setup only (plus the Linux camera-permission handler)
 - No obvious comments, no unnecessary abstractions
 
 ## Key Constraints
@@ -44,12 +44,29 @@ Project follows the [Context Keeper Method (CKM)](https://github.com/george7979/
 source ~/.cargo/env
 cargo tauri dev
 
-# Build (via GitHub Actions — not locally)
+# Windows build (via GitHub Actions — not locally)
 git push origin dev
 
 # Download .exe
 gh run download --repo george7979/live-cam --name live-cam-windows
+
+# Local Linux .deb (native Linux; system deps as in build.yml, `libayatana-appindicator3-dev` on Ubuntu 24.04+)
+cargo tauri build --bundles deb
+
+# Linux check on real cameras: Discover → cameras listed + status message on screen
+scripts/verify-linux.sh
 ```
+
+## Linux Testing
+- **The release webview has no devtools** — inspect it anyway with
+  `WEBKIT_INSPECTOR_HTTP_SERVER=127.0.0.1:<port>`; `scripts/inspector.py` evaluates JS through it
+- **Launch as the desktop app** (`systemd-run --user --scope --unit="app-gnome-Live\x20Cam-…"`,
+  as `verify-linux.sh` does): started from a terminal, the camera portal sees no app ID and GNOME
+  Shell refuses its dialog
+- **Remote desktop session:** logind grants `/dev/video*` only to the session on the physical
+  seat — over GNOME Remote Desktop the app sees no cameras until access is granted
+  (`sudo setfacl -m u:$USER:rw /dev/video* /dev/media*`, then `systemctl --user restart wireplumber`)
+- **Linux-only code** in `main.rs` stays behind `cfg(target_os = "linux")` — Windows build must not change
 
 ## Security
 - No API keys, tokens, or secrets in repo
