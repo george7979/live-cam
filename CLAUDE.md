@@ -26,7 +26,7 @@ Project follows the [Context Keeper Method (CKM)](https://github.com/george7979/
 ## Coding Standards
 - JavaScript: ES6+, vanilla (no npm dependencies in frontend)
 - CSS: separate `style.css`, dark theme
-- Rust: minimal `main.rs`, Tauri setup only (plus the Linux camera-permission handler)
+- Rust: minimal `main.rs`, Tauri setup only (plus Linux workarounds — see TECH)
 - No obvious comments, no unnecessary abstractions
 
 ## Key Constraints
@@ -66,6 +66,11 @@ scripts/verify-linux.sh
 - **Remote desktop session:** logind grants `/dev/video*` only to the session on the physical
   seat — over GNOME Remote Desktop the app sees no cameras until access is granted
   (`sudo setfacl -m u:$USER:rw /dev/video* /dev/media*`, then `systemctl --user restart wireplumber`)
+- **GTK internals of the release build:** load a GTK3 module via `GTK_MODULES=/abs/path/lib.so`
+  (e.g. emission hooks on `button-press-event` / `clicked` — call `g_type_class_ref` first)
+- **Synthetic input on GNOME Wayland:** Mutter's `org.gnome.Mutter.RemoteDesktop` D-Bus API
+  (+ `ScreenCast.RecordMonitor` for absolute pointer motion); `WAYLAND_DEBUG=client` shows what the
+  app sends (`set_minimized`, `move`, …). Over remote desktop the pointer moves in 0.8 px steps
 - **Linux-only code** in `main.rs` stays behind `cfg(target_os = "linux")` — Windows build must not change
 
 ## Security

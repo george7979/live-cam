@@ -118,7 +118,7 @@ live-cam/
 │   ├── icons/
 │   ├── gen/
 │   └── src/
-│       └── main.rs            # Entry point + Linux camera-permission handler
+│       └── main.rs            # Entry point + Linux camera permission / title-bar workarounds
 └── src/
     ├── index.html             # Layout: toolbar + video + context menu
     ├── style.css              # Dark theme
@@ -151,6 +151,15 @@ therefore connects a handler in `setup`, compiled only under `cfg(target_os = "l
 
 Allowing the WebKit request does not bypass the OS: WebKitGTK captures through the XDG camera
 portal, which asks once per app ID (stored in the portal permission store under `Live Cam`).
+
+### Title Bar on Wayland (tao < 0.36)
+tao 0.34 replaces GTK's title bar on Wayland with a `HeaderBar` inside a `GtkEventBox` created with
+`above_child = true`. The EventBox's input window then covers the header's children: presses land
+on the EventBox, never on the minimize/maximize/close `GtkButton`s (drag and double-click still
+work — the window handles those). `main.rs` (Linux only) finds that EventBox via
+`gtk_window().titlebar()` and sets `above_child = false`. Upstream removed this title bar in tao
+0.36 (tauri-apps/tao#1218, shipped with Tauri 2.12); after upgrading Tauri the workaround finds no
+EventBox and does nothing — then delete it.
 
 ### Status Message
 `#noCameraMsg` overlays the whole `.video-container` (`inset: 0`, flex-centred,
@@ -321,8 +330,6 @@ burned (bumped on dev, never released) — do not reuse.
 ## Known Issues
 
 ### Open:
-- **Linux: title-bar minimize does nothing** — clicks reach GTK but no `xdg_toplevel.set_minimized`
-  is sent; likely tied to creating the window undecorated and enabling decorations from JS
 - **Linux: footprint** — WebKitGTK data dir `~/.local/share/com.livecam.app` (salts, caches) is
   created on first run, against the zero-footprint principle
 - **Linux: duplicate camera entries** — each UVC camera exposes two V4L2 nodes, so the list shows
@@ -342,6 +349,8 @@ burned (bumped on dev, never released) — do not reuse.
 - ~~Context menu escaping small windows~~ → clamp to window bounds + scrollable menu (v1.1.0)
 - ~~Linux: Discover seemed to hang~~ (regression check: `scripts/verify-linux.sh`) → `getUserMedia` was denied at once (no wry permission
   handler) and the error rendered off-screen; Linux-only handler + overlaid status message (v1.2.1)
+- ~~Linux/Wayland: title-bar minimize and close dead~~ → tao's EventBox title bar swallowed the
+  clicks; Linux-only `set_above_child(false)` (v1.2.1)
 
 ### Potential:
 - **WebView2 Runtime** — required on target machine (pre-installed on Win 10 21H2+ / Win 11)
