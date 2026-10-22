@@ -26,8 +26,11 @@ async function listCameras() {
     const tempStream = await navigator.mediaDevices.getUserMedia({ video: true });
     tempStream.getTracks().forEach((t) => t.stop());
 
+    // WebKitGTK reports each camera twice with the same deviceId.
     const devices = await navigator.mediaDevices.enumerateDevices();
-    cameras = devices.filter((d) => d.kind === "videoinput");
+    cameras = devices.filter(
+      (d, i) => d.kind === "videoinput" && devices.findIndex((o) => o.deviceId === d.deviceId) === i
+    );
 
     updateCameraSelect();
 
@@ -68,10 +71,13 @@ function updateCameraSelect() {
   placeholder.selected = !currentDeviceId;
   select.appendChild(placeholder);
 
+  const seen = {};
   cameras.forEach((cam, i) => {
     const opt = document.createElement("option");
+    const name = cam.label || "Camera " + (i + 1);
+    seen[name] = (seen[name] || 0) + 1;
     opt.value = cam.deviceId;
-    opt.textContent = cam.label || "Camera " + (i + 1);
+    opt.textContent = seen[name] > 1 ? name + " #" + seen[name] : name;
     if (cam.deviceId === currentDeviceId) opt.selected = true;
     select.appendChild(opt);
   });

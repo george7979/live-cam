@@ -14,7 +14,7 @@ WS=ws://127.0.0.1:$PORT/$(curl -s http://127.0.0.1:$PORT/ | grep -o 'socket/[0-9
 
 OUT=$(cd "$H" && timeout 40 uv run -q --with websockets python -I inspector.py "$WS" \
   'discoverBtn.click(); "clicked"' 'sleep:4' \
-  'const r=noCameraMsg.getBoundingClientRect(); JSON.stringify({spinning: discoverBtn.classList.contains("discovering"), cameras: [...select.options].filter(o=>o.value).map(o=>o.textContent), status: noCameraMsg.innerText.trim(), statusHidden: noCameraMsg.classList.contains("hidden"), statusInView: r.top >= 0 && r.bottom <= innerHeight && r.left >= 0 && r.right <= innerWidth})' 2>&1)
+  'const r=noCameraMsg.getBoundingClientRect(); JSON.stringify({spinning: discoverBtn.classList.contains("discovering"), cameras: [...select.options].filter(o=>o.value).map(o=>o.textContent), ids: [...select.options].filter(o=>o.value).map(o=>o.value), status: noCameraMsg.innerText.trim(), statusHidden: noCameraMsg.classList.contains("hidden"), statusInView: r.top >= 0 && r.bottom <= innerHeight && r.left >= 0 && r.right <= innerWidth})' 2>&1)
 pkill -x live-cam
 STATE=$(echo "$OUT" | tail -1 | python3 -c 'import json,sys; print(json.loads(sys.stdin.read()))')
 echo "$STATE"
@@ -24,6 +24,8 @@ s = json.loads(sys.argv[1])
 checks = {
     "discovery finished": not s["spinning"],
     "cameras listed": len(s["cameras"]) > 0,
+    "each camera listed once": len(set(s["ids"])) == len(s["ids"]),
+    "camera names distinguishable": len(set(s["cameras"])) == len(s["cameras"]),
     "status message inside the window": s["statusInView"],
 }
 for name, ok in checks.items():
