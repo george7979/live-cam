@@ -22,6 +22,8 @@ Project follows the [Context Keeper Method (CKM)](https://github.com/george7979/
 - Push to `dev` → automatic Windows .exe build + dev pre-release update
 - Tag `v*` → stable GitHub Release with .exe
 - CI only triggers on code changes (path filter: `src/`, `src-tauri/`, `package.json`, `.github/workflows/`)
+- **Commit identity:** GitHub rejects pushes whose commits carry a private e-mail — set it per clone:
+  `git config user.name jerzy && git config user.email 76055443+george7979@users.noreply.github.com`
 
 ## Coding Standards
 - JavaScript: ES6+, vanilla (no npm dependencies in frontend)
