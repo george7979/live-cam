@@ -4,27 +4,46 @@ fn main() {
     tauri::Builder::default()
         .setup(|_app| {
             #[cfg(target_os = "linux")]
-            linux::allow_camera(_app)?;
+            linux::setup(_app)?;
             Ok(())
         })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
 
-// WebView2 asks the user for camera access itself; WebKitGTK emits
-// `permission-request` and denies it when nobody answers, and wry leaves it
-// unanswered. The system camera portal still gates the device itself.
 #[cfg(target_os = "linux")]
 mod linux {
+    use gtk::prelude::*;
     use tauri::Manager;
-    use webkit2gtk::glib::Cast;
     use webkit2gtk::{
         DeviceInfoPermissionRequest, PermissionRequestExt, UserMediaPermissionRequest,
         UserMediaPermissionRequestExt, WebViewExt,
     };
 
-    pub fn allow_camera(app: &tauri::App) -> tauri::Result<()> {
+    pub fn setup(app: &tauri::App) -> tauri::Result<()> {
         let window = app.get_webview_window("main").expect("main window");
+        unblock_titlebar_buttons(&window)?;
+        allow_camera(&window)
+    }
+
+    // On Wayland tao (< 0.36) wraps the header bar in an EventBox that sits
+    // above its children, so minimize/maximize/close never receive clicks.
+    // Upstream removed that title bar in tao 0.36 (tauri-apps/tao#1218).
+    fn unblock_titlebar_buttons(window: &tauri::WebviewWindow) -> tauri::Result<()> {
+        if let Some(event_box) = window
+            .gtk_window()?
+            .titlebar()
+            .and_then(|bar| bar.downcast::<gtk::EventBox>().ok())
+        {
+            event_box.set_above_child(false);
+        }
+        Ok(())
+    }
+
+    // WebView2 asks the user for camera access itself; WebKitGTK emits
+    // `permission-request` and denies it when nobody answers, and wry leaves it
+    // unanswered. The system camera portal still gates the device itself.
+    fn allow_camera(window: &tauri::WebviewWindow) -> tauri::Result<()> {
         window.with_webview(|webview| {
             webview.inner().connect_permission_request(|_, request| {
                 let camera = request
