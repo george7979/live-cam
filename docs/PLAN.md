@@ -53,7 +53,7 @@
 ### Phase 10: v1.2.0 — Keyboard Camera Switching ✅
 **Goal:** Switch cameras without the toolbar — Space/Tab cycle, 1–9 direct
 
-### Phase 11: v1.2.1 — Linux Camera Fix 🔄
+### Phase 11: v1.2.1 — Linux Camera Fix ✅
 **Goal:** Camera discovery works in the Linux .deb; Windows build unchanged
 
 ---
@@ -147,7 +147,7 @@
 - [x] Verify on Windows build (no cameras available under WSL2)
 - [x] Release v1.2.0
 
-### Phase 11 — v1.2.1 Linux Camera Fix 🔄 (started 2026-10-22)
+### Phase 11 — v1.2.1 Linux Camera Fix ✅ (2026-10-22)
 - [x] Diagnose "Discover hangs" on Linux (TECH Known Issues)
 - [x] Linux-only `permission-request` handler (Windows code path untouched)
 - [x] Status message visible inside the video area (shared CSS, owner-approved)
@@ -155,15 +155,15 @@
 - [x] Wayland title-bar buttons (minimize/close) unblocked — Linux-only workaround for tao < 0.36
 - [x] Camera list deduplicated by `deviceId`, repeated labels numbered
 - [x] Owner check of the installed .deb: discovery, camera stream, title-bar minimize/close
-- [ ] Verify Windows build from CI after push to `dev`
-- [ ] Release v1.2.1
+- [x] Verify Windows build from CI (owner, 1.2.1 build)
+- [x] Release v1.2.1
 
 ---
 
 ## Progress Tracking
 
-### Current Status: Phase 11 in progress (Linux camera fix), Phase 9 pending
-**Progress:** Linux camera fix and Wayland title-bar fix implemented on `dev` and verified on a local .deb build with real cameras. Owner confirmed the installed .deb. Next step: push to `dev` for the CI Windows build, verify it, then release v1.2.1. Code signing awaiting SignPath OSS application.
+### Current Status: Phase 11 complete (v1.2.1 released), Phase 9 pending
+**Progress:** v1.2.1 makes the Linux .deb usable: camera discovery, Wayland title-bar buttons, one entry per camera — verified on Ubuntu 26.04 (real cameras) and on Windows. Code signing awaiting SignPath OSS application.
 
 ### Backlog:
 - Linux: data-dir footprint (see TECH Known Issues)
