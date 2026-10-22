@@ -153,7 +153,7 @@
 - [x] Status message visible inside the video area (shared CSS, owner-approved)
 - [x] Local Linux build and verification on real cameras (inspector-driven check, stream 1280×720)
 - [x] Wayland title-bar buttons (minimize/close) unblocked — Linux-only workaround for tao < 0.36
-- [ ] Owner check of the local .deb at the machine (not over remote desktop)
+- [x] Owner check of the installed .deb: discovery, camera stream, title-bar minimize/close
 - [ ] Verify Windows build from CI after push to `dev`
 - [ ] Release v1.2.1
 
@@ -162,7 +162,7 @@
 ## Progress Tracking
 
 ### Current Status: Phase 11 in progress (Linux camera fix), Phase 9 pending
-**Progress:** Linux camera fix and Wayland title-bar fix implemented on `dev` and verified on a local .deb build with real cameras. Next step: owner tests the .deb at the machine, then push to `dev` for the CI Windows build, then release v1.2.1. Code signing awaiting SignPath OSS application.
+**Progress:** Linux camera fix and Wayland title-bar fix implemented on `dev` and verified on a local .deb build with real cameras. Owner confirmed the installed .deb. Next step: push to `dev` for the CI Windows build, verify it, then release v1.2.1. Code signing awaiting SignPath OSS application.
 
 ### Backlog:
 - Linux: data-dir footprint, duplicate V4L2 entries (see TECH Known Issues)
