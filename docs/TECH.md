@@ -332,8 +332,10 @@ burned (bumped on dev, never released) — do not reuse.
 ### Open:
 - **Linux: footprint** — WebKitGTK data dir `~/.local/share/com.livecam.app` (salts, caches) is
   created on first run, against the zero-footprint principle
-- **Linux: duplicate camera entries** — each UVC camera exposes two V4L2 nodes, so the list shows
-  four "Integrated Camera (V4L2)" entries for two cameras
+- **Linux: duplicate camera entries** — WebKitGTK's `enumerateDevices()` returns every camera twice
+  with the same `deviceId` (likely seen via both PipeWire and libcamera). On the test laptop
+  (RGB 1280×720 + IR 640×360 GREY) that gives four "Integrated Camera (V4L2)" entries for two
+  cameras; the metadata nodes `/dev/video1`/`video3` are not listed
 - **Linux: started outside the desktop launcher** (e.g. from a terminal) the camera portal has no
   app ID, asks for a system dialog, and GNOME Shell refuses it ("Only the focused app is allowed…")
 

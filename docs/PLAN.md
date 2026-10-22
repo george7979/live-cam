@@ -165,7 +165,7 @@
 **Progress:** Linux camera fix and Wayland title-bar fix implemented on `dev` and verified on a local .deb build with real cameras. Owner confirmed the installed .deb. Next step: push to `dev` for the CI Windows build, verify it, then release v1.2.1. Code signing awaiting SignPath OSS application.
 
 ### Backlog:
-- Linux: data-dir footprint, duplicate V4L2 entries (see TECH Known Issues)
+- Linux: data-dir footprint, duplicate camera entries — dedupe by `deviceId` (see TECH Known Issues)
 - Upgrade Tauri 2.10 → 2.12 (tao 0.37 fixes the Wayland title bar upstream; drop the workaround) — touches the Windows build, needs a Windows CI check
 - CI actions still target Node.js 20, which GitHub has deprecated — bump `actions/checkout`, `setup-node`, `cache`, `upload-artifact`, `download-artifact` and `softprops/action-gh-release` before the runners drop support
 
