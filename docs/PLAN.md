@@ -171,7 +171,7 @@
 
 ## Progress Tracking
 
-### Current Status: Phase 12 complete (v1.2.2 released; Windows not yet checked by owner), Phase 9 pending
+### Current Status: Phase 12 complete (v1.2.2 released, verified on Linux and Windows), Phase 9 pending
 **Progress:** v1.2.1 makes the Linux .deb usable: camera discovery, Wayland title-bar buttons, one entry per camera — verified on Ubuntu 26.04 (real cameras) and on Windows. Code signing awaiting SignPath OSS application.
 
 ### Backlog:
