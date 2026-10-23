@@ -70,6 +70,9 @@ scripts/verify-linux.sh
   (`sudo setfacl -m u:$USER:rw /dev/video* /dev/media*`, then `systemctl --user restart wireplumber`)
 - **GTK internals of the release build:** load a GTK3 module via `GTK_MODULES=/abs/path/lib.so`
   (e.g. emission hooks on `button-press-event` / `clicked` — call `g_type_class_ref` first)
+- **Linux runs under XWayland by default** (`GDK_BACKEND=x11` set in `main.rs`, for always-on-top):
+  find the window with `xwininfo -root -tree | grep '"Live Cam"'`, read its state with
+  `xprop -id <win> _NET_WM_STATE`; the Wayland tips below need `GDK_BACKEND=wayland`
 - **Synthetic input on GNOME Wayland:** Mutter's `org.gnome.Mutter.RemoteDesktop` D-Bus API
   (+ `ScreenCast.RecordMonitor` for absolute pointer motion); `WAYLAND_DEBUG=client` shows what the
   app sends (`set_minimized`, `move`, …). Over remote desktop the pointer moves in 0.8 px steps

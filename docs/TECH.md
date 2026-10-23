@@ -155,7 +155,16 @@ therefore connects a handler in `setup`, compiled only under `cfg(target_os = "l
 Allowing the WebKit request does not bypass the OS: WebKitGTK captures through the XDG camera
 portal, which asks once per app ID (stored in the portal permission store under `Live Cam`).
 
+### Always on Top on Linux (XWayland)
+Wayland gives clients no request to keep a window above others: GTK3's `keep_above` is a no-op
+there and the menu showed "✓" with nothing sent to the compositor (checked with
+`WAYLAND_DEBUG=client`). `main.rs` (Linux only) therefore sets `GDK_BACKEND=x11` before GTK starts,
+unless the user already set `GDK_BACKEND`; under XWayland Mutter honours it
+(`_NET_WM_STATE_ABOVE`, checked with `xprop`). Cost: with fractional display scaling an XWayland
+window may render slightly blurred. `GDK_BACKEND=wayland live-cam` restores native Wayland.
+
 ### Title Bar on Wayland (tao < 0.36)
+Applies only when run with `GDK_BACKEND=wayland` (default is XWayland, see above).
 tao 0.34 replaces GTK's title bar on Wayland with a `HeaderBar` inside a `GtkEventBox` created with
 `above_child = true`. The EventBox's input window then covers the header's children: presses land
 on the EventBox, never on the minimize/maximize/close `GtkButton`s (drag and double-click still
@@ -338,6 +347,11 @@ burned (bumped on dev, never released) — do not reuse.
 - **Linux: started outside the desktop launcher** (e.g. from a terminal) the camera portal has no
   app ID, asks for a system dialog, and GNOME Shell refuses it ("Only the focused app is allowed…")
 
+- **Linux: IR sensor shows a frozen frame** — laptop IR node (`/dev/video2`, GRAY8 640×360) is
+  listed as "… #2"; WebKitGTK's `pipewiresrc` fails to negotiate GRAY8 (`not-negotiated`), the track
+  stays `live` with 0 frames and no error, and `<video>` keeps the previous camera's last frame
+  (`selectCamera` stops the old stream before the new one delivers). Fix deferred (owner)
+
 ### Resolved:
 - ~~`--bundles none` invalid on Windows~~ → using `--bundles nsis`
 - ~~Fullscreen not working~~ → added Tauri capabilities + F key + dblclick
@@ -355,6 +369,8 @@ burned (bumped on dev, never released) — do not reuse.
   labels get "#2", "#3" (v1.2.1). Test laptop: RGB 1280×720 + IR 640×360, both "Integrated Camera (V4L2)"
 - ~~Linux/Wayland: title-bar minimize and close dead~~ → tao's EventBox title bar swallowed the
   clicks; Linux-only `set_above_child(false)` (v1.2.1)
+- ~~Linux/Wayland: Always on top ignored~~ → Wayland has no such request; Linux-only
+  `GDK_BACKEND=x11` default (XWayland)
 
 ### Potential:
 - **WebView2 Runtime** — required on target machine (pre-installed on Win 10 21H2+ / Win 11)

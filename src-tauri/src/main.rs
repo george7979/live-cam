@@ -1,6 +1,9 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
+    #[cfg(target_os = "linux")]
+    linux::prefer_x11();
+
     tauri::Builder::default()
         .setup(|_app| {
             #[cfg(target_os = "linux")]
@@ -19,6 +22,15 @@ mod linux {
         DeviceInfoPermissionRequest, PermissionRequestExt, UserMediaPermissionRequest,
         UserMediaPermissionRequestExt, WebViewExt,
     };
+
+    // Wayland gives clients no way to keep a window above others, so GTK
+    // silently ignores always-on-top there; under XWayland the window manager
+    // honours it. An explicit GDK_BACKEND from the user still wins.
+    pub fn prefer_x11() {
+        if std::env::var_os("GDK_BACKEND").is_none() {
+            std::env::set_var("GDK_BACKEND", "x11");
+        }
+    }
 
     pub fn setup(app: &tauri::App) -> tauri::Result<()> {
         let window = app.get_webview_window("main").expect("main window");
