@@ -111,11 +111,27 @@ async function selectCamera(deviceId) {
     const resText = settings.width + "x" + settings.height;
     resolutionEl.textContent = resText;
     menuResolution.textContent = resText + " @ " + Math.round(settings.frameRate || 0) + " fps";
+    watchFirstFrame(stream);
   } catch (err) {
+    video.srcObject = null;
     resolutionEl.textContent = "";
     menuResolution.textContent = "";
     showStatus("Camera error: " + err.message);
   }
+}
+
+// Some devices (e.g. a laptop's IR sensor on Linux) open without error but
+// never deliver a frame; the previous camera's last frame would stay on screen.
+function watchFirstFrame(stream) {
+  const timer = setTimeout(() => {
+    if (currentStream !== stream) return;
+    stream.getTracks().forEach((t) => t.stop());
+    video.srcObject = null;
+    resolutionEl.textContent = "";
+    menuResolution.textContent = "";
+    showStatus("This camera sends no picture");
+  }, 4000);
+  video.addEventListener("loadeddata", () => clearTimeout(timer), { once: true });
 }
 
 function showStatus(msg) {

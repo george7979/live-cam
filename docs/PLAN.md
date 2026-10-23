@@ -164,7 +164,7 @@
 ### Phase 12 — Linux Fixes 🔄
 - [x] Always on top on GNOME Wayland — run under XWayland (`GDK_BACKEND=x11`, Linux only); verified locally (`_NET_WM_STATE_ABOVE`)
 - [ ] Owner testing of the .deb — report further issues (no proactive review, owner's call)
-- [ ] IR sensor frozen frame (TECH Known Issues) — fix deferred
+- [x] Camera that sends no frames (IR sensor) — message instead of a frozen frame (shared JS, owner-approved)
 - [ ] Release
 
 ---

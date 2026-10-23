@@ -347,11 +347,6 @@ burned (bumped on dev, never released) — do not reuse.
 - **Linux: started outside the desktop launcher** (e.g. from a terminal) the camera portal has no
   app ID, asks for a system dialog, and GNOME Shell refuses it ("Only the focused app is allowed…")
 
-- **Linux: IR sensor shows a frozen frame** — laptop IR node (`/dev/video2`, GRAY8 640×360) is
-  listed as "… #2"; WebKitGTK's `pipewiresrc` fails to negotiate GRAY8 (`not-negotiated`), the track
-  stays `live` with 0 frames and no error, and `<video>` keeps the previous camera's last frame
-  (`selectCamera` stops the old stream before the new one delivers). Fix deferred (owner)
-
 ### Resolved:
 - ~~`--bundles none` invalid on Windows~~ → using `--bundles nsis`
 - ~~Fullscreen not working~~ → added Tauri capabilities + F key + dblclick
@@ -371,6 +366,10 @@ burned (bumped on dev, never released) — do not reuse.
   clicks; Linux-only `set_above_child(false)` (v1.2.1)
 - ~~Linux/Wayland: Always on top ignored~~ → Wayland has no such request; Linux-only
   `GDK_BACKEND=x11` default (XWayland)
+- ~~Linux: IR sensor ("… #2") showed the previous camera's frozen frame~~ → WebKitGTK cannot
+  negotiate its GRAY8 format, the track stays `live` with 0 frames and no error; `watchFirstFrame`
+  clears the video and shows "This camera sends no picture" when no frame arrives within 4 s.
+  A picture from it is not possible (format, and Linux does not switch the IR emitter on)
 
 ### Potential:
 - **WebView2 Runtime** — required on target machine (pre-installed on Win 10 21H2+ / Win 11)
