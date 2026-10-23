@@ -56,7 +56,7 @@
 ### Phase 11: v1.2.1 — Linux Camera Fix ✅
 **Goal:** Camera discovery works in the Linux .deb; Windows build unchanged
 
-### Phase 12: Linux Fixes 🔄
+### Phase 12: v1.2.2 — Linux Fixes 🔄
 **Goal:** Fix what the owner finds while testing the Linux .deb; Windows build unchanged
 
 ---
@@ -161,7 +161,7 @@
 - [x] Verify Windows build from CI (owner, 1.2.1 build)
 - [x] Release v1.2.1
 
-### Phase 12 — Linux Fixes 🔄
+### Phase 12 — v1.2.2 Linux Fixes 🔄
 - [x] Always on top on GNOME Wayland — run under XWayland (`GDK_BACKEND=x11`, Linux only); verified locally (`_NET_WM_STATE_ABOVE`)
 - [ ] Owner testing of the .deb — report further issues (no proactive review, owner's call)
 - [x] Camera that sends no frames (IR sensor) — message instead of a frozen frame (shared JS, owner-approved)
@@ -171,7 +171,7 @@
 
 ## Progress Tracking
 
-### Current Status: Phase 12 in progress (owner testing the Linux .deb), Phase 9 pending
+### Current Status: Phase 12 — releasing v1.2.2 (Windows CI check pending), Phase 9 pending
 **Progress:** v1.2.1 makes the Linux .deb usable: camera discovery, Wayland title-bar buttons, one entry per camera — verified on Ubuntu 26.04 (real cameras) and on Windows. Code signing awaiting SignPath OSS application.
 
 ### Backlog:
